@@ -41,9 +41,9 @@ void main() {
         expect(v.storage, orderedEquals([1.0, 2.0, 3.0]));
       });
 
-      test("From List", () {
-        Vector3 v = new Vector3.fromList([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0], 2);
-        expect(v.storage, orderedEquals([3.0, 4.0, 5.0]));
+      test("From Iterable", () {
+        Vector3 v = new Vector3.fromIterable([1.0, 2.0, 3.0], 2);
+        expect(v.storage, orderedEquals([1.0, 2.0, 3.0]));
       });
 
       test("Float32List View", () {
@@ -250,6 +250,44 @@ void main() {
         v.y = 10.0;
         v.z = 11.0;
         expect([v[0], v[1], v[2]], orderedEquals([9.0, 10.0, 11.0]));
+      });
+    });
+
+    group('Calculated Values:', () {
+
+      test("DistanceTo", () {
+        Vector3 a = new Vector3.components(1.5, 2.5, 3.5);
+        Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
+        expect(a.distanceTo(b), closeTo(6.928203, 0.000005));
+      });
+
+      test("DistanceToSquared", () {
+        Vector3 a = new Vector3.components(1.5, 2.5, 3.5);
+        Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
+        expect(a.distanceToSquared(b), closeTo(48.0, 0.000005));
+      });
+
+      test("Dot Product", () {
+        Vector3 a = new Vector3.components(1.5, 2.5, 3.5);
+        Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
+        expect(a.dot(b), closeTo(50.75, 0.000005));
+      });
+    });
+
+    group('Cross Products:', () {
+
+      test("Cross Product 3", () {
+        Vector3 a = new Vector3.components(1.5, 2.5, 3.5);
+        Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
+        Vector3 v = new Vector3.cross3(a, b);
+        expect(v, closeToVector3(-4.0, 8.0, -4.0, 0.000005));
+      });
+
+      test("Cross Product 2", () {
+        Vector2 a = new Vector2.components(1.5, 2.5);
+        Vector2 b = new Vector2.components(5.5, 6.5);
+        Vector3 v = new Vector3.cross2(a, b);
+        expect(v, closeToVector3(0.0, 0.0, -4.0, 0.000005));
       });
     });
   });

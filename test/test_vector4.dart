@@ -42,8 +42,8 @@ void main() {
       });
 
       test("From List", () {
-        Vector4 v = new Vector4.fromList([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0], 2);
-        expect(v.storage, orderedEquals([3.0, 4.0, 5.0, 6.0]));
+        Vector4 v = new Vector4.fromIterable([1.0, 2.0, 3.0, 4.0], 2);
+        expect(v.storage, orderedEquals([1.0, 2.0, 3.0, 4.0]));
       });
 
       test("Float32List View", () {
@@ -267,6 +267,27 @@ void main() {
         v.z = 11.0;
         v.w = 12.0;
         expect([v[0], v[1], v[2], v[3]], orderedEquals([9.0, 10.0, 11.0, 12.0]));
+      });
+    });
+
+    group('Calculated Values:', () {
+
+      test("DistanceTo", () {
+        Vector4 a = new Vector4.components(1.5, 2.5, 3.5, 4.5);
+        Vector4 b = new Vector4.components(5.5, 6.5, 7.5, 8.5);
+        expect(a.distanceTo(b), closeTo(8.000000, 0.000005));
+      });
+
+      test("DistanceToSquared", () {
+        Vector4 a = new Vector4.components(1.5, 2.5, 3.5, 4.5);
+        Vector4 b = new Vector4.components(5.5, 6.5, 7.5, 8.5);
+        expect(a.distanceToSquared(b), closeTo(64.0, 0.000005));
+      });
+
+      test("Dot Product", () {
+        Vector4 a = new Vector4.components(1.5, 2.5, 3.5, 4.5);
+        Vector4 b = new Vector4.components(5.5, 6.5, 7.5, 8.5);
+        expect(a.dot(b), closeTo(89.0, 0.000005));
       });
     });
   });

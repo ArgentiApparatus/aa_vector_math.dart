@@ -86,18 +86,18 @@ class Vector3 implements Vector {
   /// Constructs a new vector copying component values from [other].
   factory Vector3.from4(Vector4 other) => new Vector3.zero()..setFrom4(other);
 
-  /// Constructs a new vector copying component values from [list] starting at [offset].
-  /// Length of [list] after [offset] must be greater than or equal to [numComponents].
-  factory Vector3.fromList(List<double> list, [int offset = 0]) =>
-      new Vector3.zero()..setFromList(list, offset);
+  /// Constructs a new vector copying component values from [iterable] starting at [offset].
+  /// Length of [iterable] after [offset] must be greater than or equal to [numComponents].
+  factory Vector3.fromIterable(Iterable<double> iterable, [int offset = 0]) =>
+      new Vector3.zero()..setFromIterable(iterable, offset);
 
   /// Constructs a new vector which is the cross product of [a] and [b].
-  factory Vector3.crossProduct3(Vector3 a, Vector3 b) =>
-      new Vector3.zero()..takeCrossProduct3(a, b);
+  factory Vector3.cross3(Vector3 a, Vector3 b) =>
+      new Vector3.zero()..takeCross3(a, b);
 
   /// Constructs a new vector which is the cross product of [a] and [b].
-  factory Vector3.crossProduct2(Vector2 a, Vector2 b)
-      => new Vector3.zero()..takeCrossProduct2(a, b);
+  factory Vector3.cross2(Vector2 a, Vector2 b)
+      => new Vector3.zero()..takeCross2(a, b);
 
   /// View onto a [Float32List].
   /// Length of [list] must be greater than or equal to [numComponents].
@@ -147,16 +147,18 @@ class Vector3 implements Vector {
     _v3storage[2] = otherStorage[2];
   }
 
-  /// Set the components by copying them from [list] starting at [offset].
-  /// Length of [list] after [offset] must be greater than or equal to [numComponents].
-  void setFromList(List<double> list, [int offset = 0]) {
-    _v3storage[0] = list[offset];
-    _v3storage[1] = list[offset + 1];
-    _v3storage[2] = list[offset + 2];
+  /// Set the components by copying them from [iterable].
+  /// If [iterable] contains *n* elemnts which is less than [numComponents],
+  /// only the *n* components of [this] will be set.
+  void setFromIterable(Iterable<double> iterable, [int offset = 0]) {
+    int i=0;
+    for(double d in iterable.take(numComponents)) {
+      _v3storage[i++] = d;
+    }
   }
 
   /// Set [this] to cross product of [a] and [b].
-  takeCrossProduct3(Vector3 a, Vector3 b) {
+  takeCross3(Vector3 a, Vector3 b) {
     final ax = a._v3storage[0];
     final ay = a._v3storage[1];
     final az = a._v3storage[2];
@@ -169,7 +171,7 @@ class Vector3 implements Vector {
   }
 
   /// Set [this] to cross product of [a] and [b].
-  takeCrossProduct2(Vector2 a, Vector2 b) {
+  takeCross2(Vector2 a, Vector2 b) {
     final ax = a._v2storage[0];
     final ay = a._v2storage[1];
     final bx = b._v2storage[0];
@@ -179,54 +181,12 @@ class Vector3 implements Vector {
     _v3storage[2] = ax * by - ay * bx;
   }
 
-  /// Copies values of components into [list] starting at [offset].
-  /// Length of [list] after [offset] must be greater than or equal to [numComponents].
-  void copyIntoList(List<double> list, [int offset = 0]) {
-    list[offset] = _v3storage[0];
-    list[offset + 1] = _v3storage[1];
-    list[offset + 2] = _v3storage[2];
-  }
-
-  /// Angle between [this] and [other] in radians.
-  double angleTo(Vector3 other) {
-    final otherStorage = other._v3storage;
-    if (_v3storage[0] == otherStorage[0] &&
-        _v3storage[1] == otherStorage[1] &&
-        _v3storage[2] == otherStorage[2]) {
-      return 0.0;
-    }
-    final d = dotProduct(other);
-    return Math.acos(d.clamp(-1.0, 1.0));
-  }
-
-  /// Returns the signed angle between [this] and [other] around [normal]
-  /// in radians.
-  double angleToAround(Vector3 other, Vector3 normal) {
-    final angle = angleTo(other);
-    final c = new Vector3.crossProduct3(this, other);
-    final d = c.dotProduct(normal);
-    return d < 0.0 ? -angle : angle;
-  }
-
-  /// Distance from [this] to [other]
-  double distanceTo(Vector3 other) => Math.sqrt(distanceToSquared(other));
-
-  /// Squared distance from [this] to [other]
-  double distanceToSquared(Vector3 other) {
-    final otherStorage = other._v3storage;
-    final dx = _v3storage[0] - otherStorage[0];
-    final dy = _v3storage[1] - otherStorage[1];
-    final dz = _v3storage[2] - otherStorage[2];
-    return dx * dx + dy * dy + dz * dz;
-  }
-
-  /// Dot product of [this] and [other].
-  double dotProduct(Vector3 other) {
-    final otherStorage = other._v3storage;
-    double sum = _v3storage[0] * otherStorage[0];
-    sum += _v3storage[1] * otherStorage[1];
-    sum += _v3storage[2] * otherStorage[2];
-    return sum;
+  /// Copies values of components into [iterable] starting at [offset].
+  /// Length of [iterable] after [offset] must be greater than or equal to [numComponents].
+  void copyIntoIterable(Iterable<double> iterable, [int offset = 0]) {
+    iterable[offset] = _v3storage[0];
+    iterable[offset + 1] = _v3storage[1];
+    iterable[offset + 2] = _v3storage[2];
   }
 
   bool operator ==(other) {
@@ -365,4 +325,46 @@ class Vector3 implements Vector {
     _v3storage[2] = _v3storage[2] / argStorage[2];
   }
 
+
+  /// Angle between [this] and [other] in radians.
+  double angleTo(Vector3 other) {
+    final otherStorage = other._v3storage;
+    if (_v3storage[0] == otherStorage[0] &&
+        _v3storage[1] == otherStorage[1] &&
+        _v3storage[2] == otherStorage[2]) {
+      return 0.0;
+    }
+    final d = dot(other);
+    return Math.acos(d.clamp(-1.0, 1.0));
+  }
+
+  /// Returns the signed angle between [this] and [other] around [normal]
+  /// in radians.
+  double angleToAround(Vector3 other, Vector3 normal) {
+    final angle = angleTo(other);
+    final c = new Vector3.cross3(this, other);
+    final d = c.dot(normal);
+    return d < 0.0 ? -angle : angle;
+  }
+
+  /// Distance from [this] to [other]
+  double distanceTo(Vector3 other) => Math.sqrt(distanceToSquared(other));
+
+  /// Squared distance from [this] to [other]
+  double distanceToSquared(Vector3 other) {
+    final otherStorage = other._v3storage;
+    final dx = _v3storage[0] - otherStorage[0];
+    final dy = _v3storage[1] - otherStorage[1];
+    final dz = _v3storage[2] - otherStorage[2];
+    return dx * dx + dy * dy + dz * dz;
+  }
+
+  /// Dot product of [this] and [other].
+  double dot(Vector3 other) {
+    final otherStorage = other._v3storage;
+    double sum = _v3storage[0] * otherStorage[0];
+    sum += _v3storage[1] * otherStorage[1];
+    sum += _v3storage[2] * otherStorage[2];
+    return sum;
+  }
 }

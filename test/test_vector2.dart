@@ -36,14 +36,14 @@ void main() {
         expect(v.storage, orderedEquals([1.0, 2.0]));
       });
 
-      test("From Vector4", () {
+      test("From Vector2", () {
         Vector2 v = new Vector2.from4(new Vector4.components(1.0, 2.0, 3.0, 4.0));
         expect(v.storage, orderedEquals([1.0, 2.0]));
       });
 
-      test("From List", () {
-        Vector2 v = new Vector2.fromList([1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0], 2);
-        expect(v.storage, orderedEquals([3.0, 4.0]));
+      test("From Iterable", () {
+        Vector2 v = new Vector2.fromIterable([1.0, 2.0], 2);
+        expect(v.storage, orderedEquals([1.0, 2.0]));
       });
 
       test("Float32List View", () {
@@ -233,6 +233,33 @@ void main() {
         v.x = 9.0;
         v.y = 10.0;
         expect([v[0], v[1]], orderedEquals([9.0, 10.0]));
+      });
+    });
+
+    group('Calculated Values:', () {
+
+      test("DistanceTo", () {
+        Vector2 a = new Vector2.components(1.5, 2.5);
+        Vector2 b = new Vector2.components(5.5, 6.5);
+        expect(a.distanceTo(b), closeTo(5.656854, 0.000005));
+      });
+
+      test("DistanceToSquared", () {
+        Vector2 a = new Vector2.components(1.5, 2.5);
+        Vector2 b = new Vector2.components(5.5, 6.5);
+        expect(a.distanceToSquared(b), closeTo(32.0, 0.000005));
+      });
+
+      test("Dot Product", () {
+        Vector2 a = new Vector2.components(1.5, 2.5);
+        Vector2 b = new Vector2.components(5.5, 6.5);
+        expect(a.dot(b), closeTo(24.5, 0.000005));
+      });
+
+      test("Cross Product Length", () {
+        Vector2 a = new Vector2.components(1.5, 2.5);
+        Vector2 b = new Vector2.components(5.5, 6.5);
+        expect(a.cross2Length(b), closeTo(-4.0, 0.000005));
       });
     });
   });

@@ -75,10 +75,10 @@ class Vector2 implements Vector {
   /// Constructs a new vector copying component values from [other].
   factory Vector2.from4(Vector4 other) => new Vector2.zero()..setFrom4(other);
 
-  /// Constructs a new vector copying component values from [list] starting at [offset].
-  /// Length of [list] after [offset] must be greater than or equal to [numComponents].
-  factory Vector2.fromList(List<double> list, [int offset = 0]) =>
-      new Vector2.zero()..setFromList(list, offset);
+  /// Constructs a new vector copying component values from [iterable] starting at [offset].
+  /// Length of [iterable] after [offset] must be greater than or equal to [numComponents].
+  factory Vector2.fromIterable(Iterable<double> iterable, [int offset = 0]) =>
+      new Vector2.zero()..setFromIterable(iterable, offset);
 
   /// View onto a [Float32List].
   /// Length of [list] must be greater than or equal to [numComponents].
@@ -123,42 +123,14 @@ class Vector2 implements Vector {
     _v2storage[1] = otherStorage[1];
   }
 
-  /// Set the components by copying them from [list] starting at [offset].
-  /// Length of [list] after [offset] must be greater than or equal to [numComponents].
-  void setFromList(List<double> list, [int offset = 0]) {
-    _v2storage[0] = list[offset];
-    _v2storage[1] = list[offset + 1];
-  }
-
-  /// Copies values of components into [list] starting at [offset].
-  /// Length of [list] after [offset] must be greater than or equal to [numComponents].
-  void copyIntoList(List<double> list, [int offset = 0]) {
-    list[offset] = _v2storage[0];
-    list[offset + 1] = _v2storage[1];
-  }
-
-  /// Length of cross product of [this] and [other].
-  /// (Cross product of two 2D vectors is a 3D vector parallel with z axis.)
-  double crossProduct2Length(Vector2 other) {
-    return _v2storage[0] * other._v2storage[1] - _v2storage[1] * other._v2storage[0];
-  }
-
-  /// Distance from [this] to [other]
-  double distanceTo(Vector2 other) => Math.sqrt(distanceToSquared(other));
-
-  /// Squared distance from [this] to [other]
-  double distanceToSquared(Vector2 other) {
-    final dx = x - other.x;
-    final dy = y - other.y;
-    return dx * dx + dy * dy;
-  }
-
-  /// Dot product of [this] and [other].
-  double dotProduct(Vector2 other) {
-    final otherStorage = other._v2storage;
-    double sum = _v2storage[0] * otherStorage[0];
-    sum += _v2storage[1] * otherStorage[1];
-    return sum;
+  /// Set the components by copying them from [iterable].
+  /// If [iterable] contains *n* elemnts which is less than [numComponents],
+  /// only the *n* components of [this] will be set.
+  void setFromIterable(Iterable<double> iterable, [int offset = 0]) {
+    int i=0;
+    for(double d in iterable.take(numComponents)) {
+      _v2storage[i++] = d;
+    }
   }
 
   bool operator ==(other) {
@@ -281,4 +253,27 @@ class Vector2 implements Vector {
     _v2storage[1] = _v2storage[1] / otherStorage[1];
   }
 
+  /// Length of cross product of [this] and [other].
+  /// (Cross product of two 2D vectors is a 3D vector parallel with z axis.)
+  double cross2Length(Vector2 other) {
+    return _v2storage[0] * other._v2storage[1] - _v2storage[1] * other._v2storage[0];
+  }
+
+  /// Distance from [this] to [other]
+  double distanceTo(Vector2 other) => Math.sqrt(distanceToSquared(other));
+
+  /// Squared distance from [this] to [other]
+  double distanceToSquared(Vector2 other) {
+    final dx = x - other.x;
+    final dy = y - other.y;
+    return dx * dx + dy * dy;
+  }
+
+  /// Dot product of [this] and [other].
+  double dot(Vector2 other) {
+    final otherStorage = other._v2storage;
+    double sum = _v2storage[0] * otherStorage[0];
+    sum += _v2storage[1] * otherStorage[1];
+    return sum;
+  }
 }
