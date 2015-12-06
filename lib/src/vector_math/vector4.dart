@@ -307,6 +307,12 @@ class Vector4 implements Vector {
     _v4storage[3] = _v4storage[3] / otherStorage[3];
   }
 
+  /// Absolute angle between [this] and [other] in radians.
+  double angleBetween(Vector4 other) {
+    final d = dot(other);
+    return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
+  }
+
   /// Distance from [this] to [other]
   double distanceTo(Vector4 other) => Math.sqrt(distanceToSquared(other));
 

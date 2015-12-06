@@ -253,6 +253,12 @@ class Vector2 implements Vector {
     _v2storage[1] = _v2storage[1] / otherStorage[1];
   }
 
+  /// Absolute angle between [this] and [other] in radians.
+  double angleBetween(Vector2 other) {
+    final d = dot(other);
+    return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
+  }
+
   /// Length of cross product of [this] and [other].
   /// (Cross product of two 2D vectors is a 3D vector parallel with z axis.)
   double cross2Length(Vector2 other) {

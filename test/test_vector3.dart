@@ -3,6 +3,7 @@
 
 library test_vector3;
 
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:test/test.dart';
 import 'package:aa_vector_math/vector_math.dart';
@@ -255,6 +256,25 @@ void main() {
 
     group('Calculated Values:', () {
 
+      test("Angle Between", () {
+        Vector3 a = new Vector3.components(1.5, 2.5, 3.5);
+        Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
+        expect(a.angleBetween(b), closeTo(0.190717, 0.000005));
+        expect(b.angleBetween(a), closeTo(0.190717, 0.000005));
+
+        a.setComponents(1.0, 0.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0);
+        expect(a.angleBetween(b), closeTo(PI/2, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0);
+        b.setComponents(0.0, 0.0, 1.0);
+        expect(a.angleBetween(b), closeTo(PI/2, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0);
+        expect(a.angleBetween(b), closeTo(0.0, 0.000005));
+      });
+
       test("DistanceTo", () {
         Vector3 a = new Vector3.components(1.5, 2.5, 3.5);
         Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
@@ -271,6 +291,18 @@ void main() {
         Vector3 a = new Vector3.components(1.5, 2.5, 3.5);
         Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
         expect(a.dot(b), closeTo(50.75, 0.000005));
+
+        a.setComponents(1.0, 0.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0);
+        expect(a.dot(b), closeTo(0.0, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0);
+        b.setComponents(0.0, 0.0, 1.0);
+        expect(a.dot(b), closeTo(0.0, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0);
+        expect(a.dot(b), closeTo(1.0, 0.000005));
       });
     });
 
@@ -281,6 +313,21 @@ void main() {
         Vector3 b = new Vector3.components(5.5, 6.5, 7.5);
         Vector3 v = new Vector3.cross3(a, b);
         expect(v, closeToVector3(-4.0, 8.0, -4.0, 0.000005));
+
+        a.setComponents(1.0, 0.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0);
+        v = new Vector3.cross3(a, b);
+        expect(v, closeToVector3(0.0, 0.0, 1.0, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0);
+        b.setComponents(0.0, 0.0, 1.0);
+        v = new Vector3.cross3(a, b);
+        expect(v, closeToVector3(1.0, 0.0, 0.0, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0);
+        v = new Vector3.cross3(a, b);
+        expect(v, closeToVector3(0.0, 0.0, 0.0, 0.000005));
       });
 
       test("Cross Product 2", () {

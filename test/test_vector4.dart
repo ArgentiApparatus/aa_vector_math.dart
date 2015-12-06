@@ -3,6 +3,7 @@
 
 library test_vector4;
 
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:test/test.dart';
 import 'package:aa_vector_math/vector_math.dart';
@@ -272,6 +273,29 @@ void main() {
 
     group('Calculated Values:', () {
 
+      test("Angle Between", () {
+        Vector4 a = new Vector4.components(1.5, 2.5, 3.5, 4.5);
+        Vector4 b = new Vector4.components(5.5, 6.5, 7.5, 8.5);
+        expect(a.angleBetween(b), closeTo(0.198352, 0.000005));
+        expect(b.angleBetween(a), closeTo(0.198352, 0.000005));
+
+        a.setComponents(1.0, 0.0, 0.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0, 0.0);
+        expect(a.angleBetween(b), closeTo(PI/2, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0, 0.0);
+        b.setComponents(0.0, 0.0, 1.0, 0.0);
+        expect(a.angleBetween(b), closeTo(PI/2, 0.000005));
+
+        a.setComponents(0.0, 0.0, 1.0, 0.0);
+        b.setComponents(0.0, 0.0, 0.0, 1.0);
+        expect(a.angleBetween(b), closeTo(PI/2, 0.000005));
+
+        a.setComponents(0.0, 0.0, 1.0, 0.0);
+        b.setComponents(0.0, 0.0, 1.0, 0.0);
+        expect(a.angleBetween(b), closeTo(0.0, 0.000005));
+      });
+
       test("DistanceTo", () {
         Vector4 a = new Vector4.components(1.5, 2.5, 3.5, 4.5);
         Vector4 b = new Vector4.components(5.5, 6.5, 7.5, 8.5);
@@ -288,6 +312,22 @@ void main() {
         Vector4 a = new Vector4.components(1.5, 2.5, 3.5, 4.5);
         Vector4 b = new Vector4.components(5.5, 6.5, 7.5, 8.5);
         expect(a.dot(b), closeTo(89.0, 0.000005));
+
+        a.setComponents(1.0, 0.0, 0.0, 0.0);
+        b.setComponents(0.0, 1.0, 0.0, 0.0);
+        expect(a.dot(b), closeTo(0.0, 0.000005));
+
+        a.setComponents(0.0, 1.0, 0.0, 0.0);
+        b.setComponents(0.0, 0.0, 1.0, 0.0);
+        expect(a.dot(b), closeTo(0.0, 0.000005));
+
+        a.setComponents(0.0, 0.0, 1.0, 0.0);
+        b.setComponents(0.0, 0.0, 0.0, 1.0);
+        expect(a.dot(b), closeTo(0.0, 0.000005));
+
+        a.setComponents(0.0, 0.0, 1.0, 0.0);
+        b.setComponents(0.0, 0.0, 1.0, 0.0);
+        expect(a.dot(b), closeTo(1.0, 0.000005));
       });
     });
   });

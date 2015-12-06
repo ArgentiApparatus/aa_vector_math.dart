@@ -181,14 +181,6 @@ class Vector3 implements Vector {
     _v3storage[2] = ax * by - ay * bx;
   }
 
-  /// Copies values of components into [iterable] starting at [offset].
-  /// Length of [iterable] after [offset] must be greater than or equal to [numComponents].
-  void copyIntoIterable(Iterable<double> iterable, [int offset = 0]) {
-    iterable[offset] = _v3storage[0];
-    iterable[offset + 1] = _v3storage[1];
-    iterable[offset + 2] = _v3storage[2];
-  }
-
   bool operator ==(other) {
     return (other is Vector3) &&
         (_v3storage[0] == other._v3storage[0]) &&
@@ -325,23 +317,16 @@ class Vector3 implements Vector {
     _v3storage[2] = _v3storage[2] / argStorage[2];
   }
 
-
-  /// Angle between [this] and [other] in radians.
-  double angleTo(Vector3 other) {
-    final otherStorage = other._v3storage;
-    if (_v3storage[0] == otherStorage[0] &&
-        _v3storage[1] == otherStorage[1] &&
-        _v3storage[2] == otherStorage[2]) {
-      return 0.0;
-    }
+  /// Absolute angle between [this] and [other] in radians.
+  double angleBetween(Vector3 other) {
     final d = dot(other);
-    return Math.acos(d.clamp(-1.0, 1.0));
+    return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
   }
 
   /// Returns the signed angle between [this] and [other] around [normal]
   /// in radians.
-  double angleToAround(Vector3 other, Vector3 normal) {
-    final angle = angleTo(other);
+  double angleBetweenAround(Vector3 other, Vector3 normal) {
+    final angle = angleBetween(other);
     final c = new Vector3.cross3(this, other);
     final d = c.dot(normal);
     return d < 0.0 ? -angle : angle;
@@ -367,4 +352,5 @@ class Vector3 implements Vector {
     sum += _v3storage[2] * otherStorage[2];
     return sum;
   }
+
 }

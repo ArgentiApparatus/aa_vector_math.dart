@@ -3,6 +3,7 @@
 
 library test_vector2;
 
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:test/test.dart';
 import 'package:aa_vector_math/vector_math.dart';
@@ -238,6 +239,21 @@ void main() {
 
     group('Calculated Values:', () {
 
+      test("Angle Between", () {
+        Vector2 a = new Vector2.components(1.5, 2.5);
+        Vector2 b = new Vector2.components(5.5, 6.5);
+        expect(a.angleBetween(b), closeTo(0.161837, 0.000005));
+        expect(b.angleBetween(a), closeTo(0.161837, 0.000005));
+
+        a.setComponents(1.0, 0.0);
+        b.setComponents(0.0, 1.0);
+        expect(a.angleBetween(b), closeTo(PI/2, 0.000005));
+
+        a.setComponents(1.0, 0.0);
+        b.setComponents(1.0, 0.0);
+        expect(a.angleBetween(b), closeTo(0.0, 0.000005));
+      });
+
       test("DistanceTo", () {
         Vector2 a = new Vector2.components(1.5, 2.5);
         Vector2 b = new Vector2.components(5.5, 6.5);
@@ -254,6 +270,14 @@ void main() {
         Vector2 a = new Vector2.components(1.5, 2.5);
         Vector2 b = new Vector2.components(5.5, 6.5);
         expect(a.dot(b), closeTo(24.5, 0.000005));
+
+        a.setComponents(1.0, 0.0);
+        b.setComponents(0.0, 1.0);
+        expect(a.dot(b), closeTo(0.0, 0.000005));
+
+        a.setComponents(1.0, 0.0);
+        b.setComponents(1.0, 0.0);
+        expect(a.dot(b), closeTo(1.0, 0.000005));
       });
 
       test("Cross Product Length", () {
