@@ -40,7 +40,7 @@ import 'package:aa_vector_math/vector_math.dart';
 
 This Dart library was inspired by and derived from John McCutchan's / Google's [vector_math.dart](https://github.com/google/vector_math.dart) library.
 
-Vector, vector lists, matrix and quaternion classes were drawn directly from vector_math.dart. Class APIs have been heavily reworked in an effort to adhere more closely to up-to-date Dart practices (see [Effective Dart](https://www.dartlang.org/effective-dart/)), and also as an excercise in API design for the author. Method implementations (i.e., the hard parts :)) are largely unchanged from those found in vector_math.dart;
+Vector, vector lists, matrix and quaternion classes were drawn directly from vector&#95;math.dart. Class APIs have been heavily reworked in an effort to adhere more closely to up-to-date Dart practices (see [Effective Dart](https://www.dartlang.org/effective-dart/)), and also as an excercise in API design for the author. Method implementations (i.e., the hard parts :)) are largely unchanged from those found in vector&#95;math.dart;
 
 
 

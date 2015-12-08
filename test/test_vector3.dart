@@ -43,7 +43,7 @@ void main() {
       });
 
       test("From Iterable", () {
-        Vector3 v = new Vector3.fromIterable([1.0, 2.0, 3.0], 2);
+        Vector3 v = new Vector3.fromIterable([1.0, 2.0, 3.0]);
         expect(v.storage, orderedEquals([1.0, 2.0, 3.0]));
       });
 
@@ -53,6 +53,16 @@ void main() {
         expect([v.x, v.y, v.z], orderedEquals([1.0, 2.0, 3.0]));
         v.x = 9.0;
         expect(list, orderedEquals([9.0, 2.0, 3.0]));
+      });
+    });
+
+    // Set froms that are not implicity tested via constructors
+    group('Set Froms:', () {
+
+      test("From 2", () {
+        Vector3 v = new Vector3.components(1.0, 2.0, 3.0);
+        v.setFrom2(new Vector2.components(10.0, 20.0));
+        expect(v.storage, orderedEquals([10.0, 20.0, 0.0]));
       });
     });
 

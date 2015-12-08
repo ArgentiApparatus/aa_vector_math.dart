@@ -42,8 +42,10 @@ class Vector3 implements Vector {
   /// Length.
   double get length => Math.sqrt(lengthSquared);
 
-  /// Set the length of the vector. A negative [value] will reverse the vector's
-  /// orientation and a [value] of zero will set the vector to zero.
+  /// Set the length of the vector.
+  /// 
+  /// A negative [value] will reverse the vector's orientation and a [value] of
+  /// zero will set the vector to zero.
   set length(double value) {
     if (value == 0.0) {
       setZero();
@@ -74,11 +76,11 @@ class Vector3 implements Vector {
   factory Vector3.components(double x, double y, double z) =>
       new Vector3.zero()..setComponents(x, y, z);
 
-  /// Constructs a new vector with all components to [value].
+  /// Constructs a new vector with all components set to [value].
   factory Vector3.all(double value) => new Vector3.zero()..setAll(value);
 
-  /// Constructs a new vector copying [x] and [y] component values from [other], [z] set to zero.
-  factory Vector3.from2(Vector2 other) => new Vector3.zero()..setFrom2(other)..z=0.0;
+  /// Constructs a new vector copying component values from [other], [z] set to zero.
+  factory Vector3.from2(Vector2 other) => new Vector3.zero()..setFrom2(other);
 
   /// Constructs a new vector copying component values from [other].
   factory Vector3.from3(Vector3 other) => new Vector3.zero()..setFrom3(other);
@@ -86,10 +88,12 @@ class Vector3 implements Vector {
   /// Constructs a new vector copying component values from [other].
   factory Vector3.from4(Vector4 other) => new Vector3.zero()..setFrom4(other);
 
-  /// Constructs a new vector copying component values from [iterable] starting at [offset].
-  /// Length of [iterable] after [offset] must be greater than or equal to [numComponents].
-  factory Vector3.fromIterable(Iterable<double> iterable, [int offset = 0]) =>
-      new Vector3.zero()..setFromIterable(iterable, offset);
+  /// Constructs a new vector copying component values from [iterable].
+  /// 
+  /// If [iterable] contains *n* elemnts which is less than [numComponents],
+  /// only the *n* components of [this] will be set.
+  factory Vector3.fromIterable(Iterable<double> iterable) =>
+      new Vector3.zero()..setFromIterable(iterable);
 
   /// Constructs a new vector which is the cross product of [a] and [b].
   factory Vector3.cross3(Vector3 a, Vector3 b) =>
@@ -100,6 +104,7 @@ class Vector3 implements Vector {
       => new Vector3.zero()..takeCross2(a, b);
 
   /// View onto a [Float32List].
+  /// 
   /// Length of [list] must be greater than or equal to [numComponents].
   Vector3.view(Float32List list): _v3storage = list;
 
@@ -124,11 +129,12 @@ class Vector3 implements Vector {
     _v3storage[2] = value;
   }
 
-  /// Set [x] and [y] components by copying them from [other].
+  /// Set [x] and [y] components by copying them from [other], set [z] to zero;
   setFrom2(Vector2 other) {
     final otherStorage = other._v2storage;
     _v3storage[0] = otherStorage[0];
     _v3storage[1] = otherStorage[1];
+    _v3storage[2] = 0.0;
   }
 
   /// Set the components by copying them from [other].
@@ -148,6 +154,7 @@ class Vector3 implements Vector {
   }
 
   /// Set the components by copying them from [iterable].
+  /// 
   /// If [iterable] contains *n* elemnts which is less than [numComponents],
   /// only the *n* components of [this] will be set.
   void setFromIterable(Iterable<double> iterable, [int offset = 0]) {
@@ -220,19 +227,19 @@ class Vector3 implements Vector {
     _v3storage[2] = _v3storage[2].abs();
   }
 
-  /// Floor components.
-  floorComponents() {
-    _v3storage[0] = _v3storage[0].floorToDouble();
-    _v3storage[1] = _v3storage[1].floorToDouble();
-    _v3storage[2] = _v3storage[2].floorToDouble();
-  }
-
   /// Ceil components.
   ceilComponents() {
     _v3storage[0] = _v3storage[0].ceilToDouble();
     _v3storage[1] = _v3storage[1].ceilToDouble();
     _v3storage[2] = _v3storage[2].ceilToDouble();
 
+  }
+
+  /// Floor components.
+  floorComponents() {
+    _v3storage[0] = _v3storage[0].floorToDouble();
+    _v3storage[1] = _v3storage[1].floorToDouble();
+    _v3storage[2] = _v3storage[2].floorToDouble();
   }
 
   /// Round components.
@@ -250,6 +257,7 @@ class Vector3 implements Vector {
   }
 
   /// Clamp [this[n]] into the range [lowerLimits[n]] → [upperLimits[*n*]].
+  /// 
   /// [lowerLimits[n]] must be less than or equal to [upperLimits[*n*]].
   clamp(Vector3 lowerLimits, Vector3 upperLimits) {
     var lowerStorage = lowerLimits.storage;
@@ -260,6 +268,7 @@ class Vector3 implements Vector {
   }
 
   /// Clamp each component into the range [lowerLimit] → [upperLimit].
+  /// 
   /// [lowerLimit] must be less than or equal to [upperLimit].
   clampScalar(double lowerLimit, double upperLimit) {
     _v3storage[0] = _v3storage[0].clamp(lowerLimit, upperLimit);
@@ -343,5 +352,4 @@ class Vector3 implements Vector {
     sum += _v3storage[2] * otherStorage[2];
     return sum;
   }
-
 }

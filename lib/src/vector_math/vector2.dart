@@ -34,8 +34,10 @@ class Vector2 implements Vector {
   /// Length.
   double get length => Math.sqrt(lengthSquared);
 
-  /// Set the length of the vector. A negative [value] will reverse the vector's
-  /// orientation and a [value] of zero will set the vector to zero.
+  /// Set the length of the vector.
+  /// 
+  /// A negative [value] will reverse the vector's orientation and a [value] of
+  /// zero will set the vector to zero.
   set length(double value) {
     if (value == 0.0) {
       setZero();
@@ -75,12 +77,15 @@ class Vector2 implements Vector {
   /// Constructs a new vector copying component values from [other].
   factory Vector2.from4(Vector4 other) => new Vector2.zero()..setFrom4(other);
 
-  /// Constructs a new vector copying component values from [iterable] starting at [offset].
-  /// Length of [iterable] after [offset] must be greater than or equal to [numComponents].
-  factory Vector2.fromIterable(Iterable<double> iterable, [int offset = 0]) =>
-      new Vector2.zero()..setFromIterable(iterable, offset);
+  /// Constructs a new vector copying component values from [iterable].
+  /// 
+  /// If [iterable] contains *n* elemnts which is less than [numComponents],
+  /// only the *n* components of [this] will be set.
+  factory Vector2.fromIterable(Iterable<double> iterable) =>
+      new Vector2.zero()..setFromIterable(iterable);
 
   /// View onto a [Float32List].
+  /// 
   /// Length of [list] must be greater than or equal to [numComponents].
   Vector2.view(Float32List list): _v2storage = list;
 
@@ -124,9 +129,10 @@ class Vector2 implements Vector {
   }
 
   /// Set the components by copying them from [iterable].
+  /// 
   /// If [iterable] contains *n* elemnts which is less than [numComponents],
   /// only the *n* components of [this] will be set.
-  void setFromIterable(Iterable<double> iterable, [int offset = 0]) {
+  void setFromIterable(Iterable<double> iterable) {
     int i=0;
     for(double d in iterable.take(numComponents)) {
       _v2storage[i++] = d;
@@ -157,7 +163,7 @@ class Vector2 implements Vector {
     _v2storage[i] = v;
   }
 
-  /// Negate [this]
+  /// Negate [this].
   negate() {
     _v2storage[0] = -_v2storage[0];
     _v2storage[1] = -_v2storage[1];
@@ -203,6 +209,7 @@ class Vector2 implements Vector {
   }
 
   /// Clamp each component into the range [lowerLimit] → [upperLimit].
+  /// 
   /// [lowerLimit] must be less than or equal to [upperLimit].
   clampScalar(double lowerLimit, double upperLimit) {
     _v2storage[0] = _v2storage[0].clamp(lowerLimit, upperLimit);
@@ -260,6 +267,7 @@ class Vector2 implements Vector {
   }
 
   /// Length of cross product of [this] and [other].
+  /// 
   /// (Cross product of two 2D vectors is a 3D vector parallel with z axis.)
   double cross2Length(Vector2 other) {
     return _v2storage[0] * other._v2storage[1] - _v2storage[1] * other._v2storage[0];

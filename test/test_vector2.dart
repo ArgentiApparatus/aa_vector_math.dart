@@ -43,7 +43,7 @@ void main() {
       });
 
       test("From Iterable", () {
-        Vector2 v = new Vector2.fromIterable([1.0, 2.0], 2);
+        Vector2 v = new Vector2.fromIterable([1.0, 2.0]);
         expect(v.storage, orderedEquals([1.0, 2.0]));
       });
 
