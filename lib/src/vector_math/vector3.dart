@@ -323,15 +323,6 @@ class Vector3 implements Vector {
     return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
   }
 
-  /// Returns the signed angle between [this] and [other] around [normal]
-  /// in radians.
-  double angleBetweenAround(Vector3 other, Vector3 normal) {
-    final angle = angleBetween(other);
-    final c = new Vector3.cross3(this, other);
-    final d = c.dot(normal);
-    return d < 0.0 ? -angle : angle;
-  }
-
   /// Distance from [this] to [other]
   double distanceTo(Vector3 other) => Math.sqrt(distanceToSquared(other));
 
