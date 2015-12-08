@@ -56,6 +56,44 @@ void main() {
       });
     });
 
+    group('Getters and Setters:', () {
+
+      test("Get", () {
+        Vector2 v = new Vector2.components(1.0, 2.0);
+        expect(v.x, 1.0);
+        expect(v.y, 2.0);
+      });
+
+      test("Set", () {
+        Vector2 v = new Vector2.components(1.0, 2.0);
+        v.x = 10.0;
+        v.y = 20.0;
+        expect(v.x, 10.0);
+        expect(v.y, 20.0);
+      });
+    });
+
+    group('Complex Getters and Setters:', () {
+
+      test("Get Length", () {
+        double l = new Vector2.components(1.0, 2.0).length;
+        expect(l, closeTo(2.236068, 0.000005));
+      });
+
+      test("Set Length", () {
+        Vector2 v = new Vector2.zero();
+        v.length = 1.0;
+        expect(v.storage, orderedEquals([0.0, 0.0]));
+        v = new Vector2.components(1.0, 2.0)..length = 3.0;
+        expect(v, closeToVector2(1.341641, 2.683282, 0.000005));
+      });
+
+      test("Get Length Squared", () {
+        double l = new Vector2.components(1.0, 2.0).lengthSquared;
+        expect(l, closeTo(5.0, 0.000005));
+      });
+    });
+
     group('Simple Operations:', () {
 
       test("Make Absolute", () {
@@ -130,27 +168,6 @@ void main() {
         expect(v.storage, orderedEquals([3.0, -2.0]));
         v = new Vector2.components(-5.0, 5.0)..clampScalar(-2.0, 3.0);
         expect(v.storage, orderedEquals([-2.0, 3.0]));
-      });
-    });
-
-    group('Complex Getters and Setters:', () {
-
-      test("Get Length", () {
-        double l = new Vector2.components(1.0, 2.0).length;
-        expect(l, closeTo(2.236068, 0.000005));
-      });
-
-      test("Set Length", () {
-        Vector2 v = new Vector2.zero();
-        v.length = 1.0;
-        expect(v.storage, orderedEquals([0.0, 0.0]));
-        v = new Vector2.components(1.0, 2.0)..length = 3.0;
-        expect(v, closeToVector2(1.341641, 2.683282, 0.000005));
-      });
-
-      test("Get Length Squared", () {
-        double l = new Vector2.components(1.0, 2.0).lengthSquared;
-        expect(l, closeTo(5.0, 0.000005));
       });
     });
 

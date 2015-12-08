@@ -21,7 +21,7 @@ class Vector4 implements Vector {
   double get r => _v4storage[0];
   double get g => _v4storage[1];
   double get b => _v4storage[2];
-  double get a => _v4storage[4];
+  double get a => _v4storage[3];
   set x(double value) => _v4storage[0] = value;
   set y(double value) => _v4storage[1] = value;
   set z(double value) => _v4storage[2] = value;

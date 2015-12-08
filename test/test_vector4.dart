@@ -56,6 +56,49 @@ void main() {
       });
     });
 
+    group('Getters and Setters:', () {
+
+      test("Get", () {
+        Vector4 v = new Vector4.components(1.0, 2.0, 3.0, 4.0);
+        expect(v.x, 1.0);
+        expect(v.y, 2.0);
+        expect(v.z, 3.0);
+        expect(v.w, 4.0);
+        expect(v.r, 1.0);
+        expect(v.g, 2.0);
+        expect(v.b, 3.0);
+        expect(v.a, 4.0);
+      });
+
+      test("Set", () {
+        Vector4 v = new Vector4.components(1.0, 2.0, 3.0, 4.0);
+        v.x = 10.0;
+        v.y = 20.0;
+        v.z = 30.0;
+        v.w = 40.0;
+        expect(v.x, 10.0);
+        expect(v.y, 20.0);
+        expect(v.z, 30.0);
+        expect(v.w, 40.0);
+        expect(v.r, 10.0);
+        expect(v.g, 20.0);
+        expect(v.b, 30.0);
+        expect(v.a, 40.0);
+        v.r = 100.0;
+        v.g = 200.0;
+        v.b = 300.0;
+        v.a = 400.0;
+        expect(v.x, 100.0);
+        expect(v.y, 200.0);
+        expect(v.z, 300.0);
+        expect(v.a, 400.0);
+        expect(v.r, 100.0);
+        expect(v.g, 200.0);
+        expect(v.b, 300.0);
+        expect(v.a, 400.0);
+      });
+    });
+
     group('Simple Operations:', () {
 
       test("Make Absolute", () {

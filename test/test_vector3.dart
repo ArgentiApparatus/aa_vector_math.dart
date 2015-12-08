@@ -56,6 +56,62 @@ void main() {
       });
     });
 
+    group('Getters and Setters:', () {
+
+      test("Get", () {
+        Vector3 v = new Vector3.components(1.0, 2.0, 3.0);
+        expect(v.x, 1.0);
+        expect(v.y, 2.0);
+        expect(v.z, 3.0);
+        expect(v.r, 1.0);
+        expect(v.g, 2.0);
+        expect(v.b, 3.0);
+      });
+
+      test("Set", () {
+        Vector3 v = new Vector3.components(1.0, 2.0, 3.0);
+        v.x = 10.0;
+        v.y = 20.0;
+        v.z = 30.0;
+        expect(v.x, 10.0);
+        expect(v.y, 20.0);
+        expect(v.z, 30.0);
+        expect(v.r, 10.0);
+        expect(v.g, 20.0);
+        expect(v.b, 30.0);
+        v.r = 100.0;
+        v.g = 200.0;
+        v.b = 300.0;
+        expect(v.x, 100.0);
+        expect(v.y, 200.0);
+        expect(v.z, 300.0);
+        expect(v.r, 100.0);
+        expect(v.g, 200.0);
+        expect(v.b, 300.0);
+      });
+    });
+
+    group('Complex Getters and Setters:', () {
+
+      test("Get Length", () {
+        double l = new Vector3.components(1.0, 2.0, 3.0).length;
+        expect(l, closeTo(3.741657, 0.000005));
+      });
+
+      test("Set Length", () {
+        Vector3 v = new Vector3.zero();
+        v.length = 1.0;
+        expect(v.storage, orderedEquals([0.0, 0.0, 0.0]));
+        v = new Vector3.components(1.0, 2.0, 3.0)..length = 3.0;
+        expect(v, closeToVector3(0.801784, 1.603568, 2.405351, 0.000005));
+      });
+
+      test("Get Length Squared", () {
+        double l = new Vector3.components(1.0, 2.0, 3.0).lengthSquared;
+        expect(l, closeTo(14.0, 0.000005));
+      });
+    });
+
     group('Simple Operations:', () {
 
       test("Make Absolute", () {
@@ -146,27 +202,6 @@ void main() {
         expect(v.storage, orderedEquals([3.0, -2.0, 3.0]));
         v = new Vector3.components(-5.0, 5.0, 5.0)..clampScalar(-2.0, 3.0);
         expect(v.storage, orderedEquals([-2.0, 3.0, 3.0]));
-      });
-    });
-
-    group('Complex Getters and Setters:', () {
-
-      test("Get Length", () {
-        double l = new Vector3.components(1.0, 2.0, 3.0).length;
-        expect(l, closeTo(3.741657, 0.000005));
-      });
-
-      test("Set Length", () {
-        Vector3 v = new Vector3.zero();
-        v.length = 1.0;
-        expect(v.storage, orderedEquals([0.0, 0.0, 0.0]));
-        v = new Vector3.components(1.0, 2.0, 3.0)..length = 3.0;
-        expect(v, closeToVector3(0.801784, 1.603568, 2.405351, 0.000005));
-      });
-
-      test("Get Length Squared", () {
-        double l = new Vector3.components(1.0, 2.0, 3.0).lengthSquared;
-        expect(l, closeTo(14.0, 0.000005));
       });
     });
 
