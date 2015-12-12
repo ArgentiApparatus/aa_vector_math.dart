@@ -4,14 +4,15 @@
 part of vector_math;
 
 abstract class Vector {
-  List<double> get storage;
+
+  List<double> get components;
+  
+  int get numComponents;
+
+  bool get isZero;
+
+  double get length;
+
+  double get lengthSquared;
+
 }
-
-
-
-
-
-
-
-
-

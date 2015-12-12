@@ -19,3 +19,5 @@ part 'src/vector_math/vector.dart';
 part 'src/vector_math/vector2.dart';
 part 'src/vector_math/vector3.dart';
 part 'src/vector_math/vector4.dart';
+
+part 'src/vector_math/matrix2.dart';

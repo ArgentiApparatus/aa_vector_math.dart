@@ -15,7 +15,7 @@ class CloseToVector2 extends Matcher {
   Matcher xm, ym;
 
   CloseToVector2(num x, num y, num delta): 
-    expected = new Vector2.components(x.toDouble(), y.toDouble()),
+    expected = new Vector2(x.toDouble(), y.toDouble()),
     xm = closeTo(x, delta),
     ym = closeTo(y, delta),
     super();
@@ -38,7 +38,7 @@ class CloseToVector3 extends Matcher {
   Matcher xm, ym, zm;
 
   CloseToVector3(num x, num y, num z, num delta): 
-    expected = new Vector3.components(x.toDouble(), y.toDouble(), z.toDouble()),
+    expected = new Vector3(x.toDouble(), y.toDouble(), z.toDouble()),
     xm = closeTo(x, delta),
     ym = closeTo(y, delta),
     zm = closeTo(z, delta),
@@ -62,7 +62,7 @@ class CloseToVector4 extends Matcher {
   Matcher xm, ym, zm, wm;
 
   CloseToVector4(num x, num y, num z, num w, num delta): 
-    expected = new Vector4.components(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble()),
+    expected = new Vector4(x.toDouble(), y.toDouble(), z.toDouble(), w.toDouble()),
     xm = closeTo(x, delta),
     ym = closeTo(y, delta),
     zm = closeTo(z, delta),
