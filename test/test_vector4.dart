@@ -312,23 +312,23 @@ void main() {
       test("Dot Product", () {
         Vector4 a = new Vector4(1.5, 2.5, 3.5, 4.5);
         Vector4 b = new Vector4(5.5, 6.5, 7.5, 8.5);
-        expect(a.dot(b), closeTo(89.0, 0.000005));
+        expect(dot4(a, b), closeTo(89.0, 0.000005));
 
         a.setComponents(1.0, 0.0, 0.0, 0.0);
         b.setComponents(0.0, 1.0, 0.0, 0.0);
-        expect(a.dot(b), closeTo(0.0, 0.000005));
+        expect(dot4(a, b), closeTo(0.0, 0.000005));
 
         a.setComponents(0.0, 1.0, 0.0, 0.0);
         b.setComponents(0.0, 0.0, 1.0, 0.0);
-        expect(a.dot(b), closeTo(0.0, 0.000005));
+        expect(dot4(a, b), closeTo(0.0, 0.000005));
 
         a.setComponents(0.0, 0.0, 1.0, 0.0);
         b.setComponents(0.0, 0.0, 0.0, 1.0);
-        expect(a.dot(b), closeTo(0.0, 0.000005));
+        expect(dot4(a, b), closeTo(0.0, 0.000005));
 
         a.setComponents(0.0, 0.0, 1.0, 0.0);
         b.setComponents(0.0, 0.0, 1.0, 0.0);
-        expect(a.dot(b), closeTo(1.0, 0.000005));
+        expect(dot4(a, b), closeTo(1.0, 0.000005));
       });
     });
   });

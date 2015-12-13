@@ -238,21 +238,21 @@ void main() {
       test("Dot Product", () {
         Vector2 a = new Vector2(1.5, 2.5);
         Vector2 b = new Vector2(5.5, 6.5);
-        expect(a.dot(b), closeTo(24.5, 0.000005));
+        expect(dot2(a, b), closeTo(24.5, 0.000005));
 
         a.setComponents(1.0, 0.0);
         b.setComponents(0.0, 1.0);
-        expect(a.dot(b), closeTo(0.0, 0.000005));
+        expect(dot2(a, b), closeTo(0.0, 0.000005));
 
         a.setComponents(1.0, 0.0);
         b.setComponents(1.0, 0.0);
-        expect(a.dot(b), closeTo(1.0, 0.000005));
+        expect(dot2(a, b), closeTo(1.0, 0.000005));
       });
 
       test("Cross Product Length", () {
         Vector2 a = new Vector2(1.5, 2.5);
         Vector2 b = new Vector2(5.5, 6.5);
-        expect(a.cross2Length(b), closeTo(-4.0, 0.000005));
+        expect(cross2Length(a, b), closeTo(-4.0, 0.000005));
       });
     });
   });

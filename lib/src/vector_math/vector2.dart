@@ -62,6 +62,8 @@ class Vector2 implements Vector {
   /// 
   /// A negative [value] will reverse the vector's orientation and a [value] of
   /// zero will set the vector to zero.
+  /// 
+  /// If the length of the vector is already zero, invoking this method has no effect. 
   set length(double value) {
     if (value == 0.0) {
       setZero();
@@ -204,15 +206,8 @@ class Vector2 implements Vector {
 
   /// Absolute angle between [this] and [other] in radians.
   double angleBetween(Vector2 other) {
-    final d = dot(other);
+    final d = dot2(this, other);
     return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
-  }
-
-  /// Length of cross product of [this] and [other].
-  /// 
-  /// (Cross product of two 2D vectors is a 3D vector parallel with z axis.)
-  double cross2Length(Vector2 other) {
-    return _v2storage[0] * other._v2storage[1] - _v2storage[1] * other._v2storage[0];
   }
 
   /// Distance from [this] to [other]
@@ -223,13 +218,5 @@ class Vector2 implements Vector {
     final dx = x - other.x;
     final dy = y - other.y;
     return dx * dx + dy * dy;
-  }
-
-  /// Dot product of [this] and [other].
-  double dot(Vector2 other) {
-    final otherStorage = other._v2storage;
-    double sum = _v2storage[0] * otherStorage[0];
-    sum += _v2storage[1] * otherStorage[1];
-    return sum;
   }
 }

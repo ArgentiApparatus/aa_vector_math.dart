@@ -34,14 +34,6 @@ class Vector3 implements Vector {
   factory Vector3.fromIterable(Iterable<double> iterable) =>
       new Vector3.zero()..setFromIterable(iterable);
 
-  /// Constructs a new vector which is the cross product of [a] and [b].
-  factory Vector3.cross3(Vector3 a, Vector3 b) =>
-      new Vector3.zero()..takeCross3(a, b);
-
-  /// Constructs a new vector which is the cross product of [a] and [b].
-  factory Vector3.cross2(Vector2 a, Vector2 b)
-      => new Vector3.zero()..takeCross2(a, b);
-
   /// View onto a [Float32List].
   /// 
   /// Length of [list] must be greater than or equal to [numComponents].
@@ -79,6 +71,8 @@ class Vector3 implements Vector {
   /// 
   /// A negative [value] will reverse the vector's orientation and a [value] of
   /// zero will set the vector to zero.
+  /// 
+  /// If the length of the vector is already zero, invoking this method has no effect. 
   set length(double value) {
     if (value == 0.0) {
       setZero();
@@ -167,30 +161,6 @@ class Vector3 implements Vector {
     }
   }
 
-  /// Set [this] to cross product of [a] and [b].
-  takeCross3(Vector3 a, Vector3 b) {
-    final ax = a._v3storage[0];
-    final ay = a._v3storage[1];
-    final az = a._v3storage[2];
-    final bx = b._v3storage[0];
-    final by = b._v3storage[1];
-    final bz = b._v3storage[2];
-    _v3storage[0] = ay * bz - az * by;
-    _v3storage[1] = az * bx - ax * bz;
-    _v3storage[2] = ax * by - ay * bx;
-  }
-
-  /// Set [this] to cross product of [a] and [b].
-  takeCross2(Vector2 a, Vector2 b) {
-    final ax = a._v2storage[0];
-    final ay = a._v2storage[1];
-    final bx = b._v2storage[0];
-    final by = b._v2storage[1];
-    _v3storage[0] = 0.0;
-    _v3storage[1] = 0.0;
-    _v3storage[2] = ax * by - ay * bx;
-  }
-
   bool operator ==(other) {
     return (other is Vector3) &&
         (_v3storage[0] == other._v3storage[0]) &&
@@ -260,7 +230,7 @@ class Vector3 implements Vector {
 
   /// Absolute angle between [this] and [other] in radians.
   double angleBetween(Vector3 other) {
-    final d = dot(other);
+    final d = dot3(this, other);
     return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
   }
 
@@ -274,14 +244,5 @@ class Vector3 implements Vector {
     final dy = _v3storage[1] - otherStorage[1];
     final dz = _v3storage[2] - otherStorage[2];
     return dx * dx + dy * dy + dz * dz;
-  }
-
-  /// Dot product of [this] and [other].
-  double dot(Vector3 other) {
-    final otherStorage = other._v3storage;
-    double sum = _v3storage[0] * otherStorage[0];
-    sum += _v3storage[1] * otherStorage[1];
-    sum += _v3storage[2] * otherStorage[2];
-    return sum;
   }
 }

@@ -75,6 +75,8 @@ class Vector4 implements Vector {
   /// 
   /// A negative [value] will reverse the vector's orientation and a [value] of
   /// zero will set the vector to zero.
+  /// 
+  /// If the length of the vector is already zero, invoking this method has no effect. 
   set length(double value) {
     if (value == 0.0) {
       setZero();
@@ -247,7 +249,7 @@ class Vector4 implements Vector {
 
   /// Absolute angle between [this] and [other] in radians.
   double angleBetween(Vector4 other) {
-    final d = dot(other);
+    final d = dot4(this, other);
     return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
   }
 
@@ -263,15 +265,5 @@ class Vector4 implements Vector {
     final dw = _v4storage[3] - otherStorage[3];
 
     return dx * dx + dy * dy + dz * dz + dw * dw;
-  }
-
-  /// Dot product of [this] and [other].
-  double dot(Vector4 other) {
-    final otherStorage = other._v4storage;
-    double sum = _v4storage[0] * otherStorage[0];
-    sum += _v4storage[1] * otherStorage[1];
-    sum += _v4storage[2] * otherStorage[2];
-    sum += _v4storage[3] * otherStorage[3];
-    return sum;
   }
 }

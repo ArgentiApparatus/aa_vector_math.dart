@@ -282,19 +282,19 @@ void main() {
       test("Dot Product", () {
         Vector3 a = new Vector3(1.5, 2.5, 3.5);
         Vector3 b = new Vector3(5.5, 6.5, 7.5);
-        expect(a.dot(b), closeTo(50.75, 0.000005));
+        expect(dot3(a, b), closeTo(50.75, 0.000005));
 
         a.setComponents(1.0, 0.0, 0.0);
         b.setComponents(0.0, 1.0, 0.0);
-        expect(a.dot(b), closeTo(0.0, 0.000005));
+        expect(dot3(a, b), closeTo(0.0, 0.000005));
 
         a.setComponents(0.0, 1.0, 0.0);
         b.setComponents(0.0, 0.0, 1.0);
-        expect(a.dot(b), closeTo(0.0, 0.000005));
+        expect(dot3(a, b), closeTo(0.0, 0.000005));
 
         a.setComponents(0.0, 1.0, 0.0);
         b.setComponents(0.0, 1.0, 0.0);
-        expect(a.dot(b), closeTo(1.0, 0.000005));
+        expect(dot3(a, b), closeTo(1.0, 0.000005));
       });
     });
 
@@ -303,29 +303,29 @@ void main() {
       test("Cross Product 3", () {
         Vector3 a = new Vector3(1.5, 2.5, 3.5);
         Vector3 b = new Vector3(5.5, 6.5, 7.5);
-        Vector3 v = new Vector3.cross3(a, b);
+        Vector3 v = cross3(a, b);
         expect(v, closeToVector3(-4.0, 8.0, -4.0, 0.000005));
 
         a.setComponents(1.0, 0.0, 0.0);
         b.setComponents(0.0, 1.0, 0.0);
-        v = new Vector3.cross3(a, b);
+        v = cross3(a, b);
         expect(v, closeToVector3(0.0, 0.0, 1.0, 0.000005));
 
         a.setComponents(0.0, 1.0, 0.0);
         b.setComponents(0.0, 0.0, 1.0);
-        v = new Vector3.cross3(a, b);
+        v = cross3(a, b);
         expect(v, closeToVector3(1.0, 0.0, 0.0, 0.000005));
 
         a.setComponents(0.0, 1.0, 0.0);
         b.setComponents(0.0, 1.0, 0.0);
-        v = new Vector3.cross3(a, b);
+        v = cross3(a, b);
         expect(v, closeToVector3(0.0, 0.0, 0.0, 0.000005));
       });
 
       test("Cross Product 2", () {
         Vector2 a = new Vector2(1.5, 2.5);
         Vector2 b = new Vector2(5.5, 6.5);
-        Vector3 v = new Vector3.cross2(a, b);
+        Vector3 v = cross2(a, b);
         expect(v, closeToVector3(0.0, 0.0, -4.0, 0.000005));
       });
     });
