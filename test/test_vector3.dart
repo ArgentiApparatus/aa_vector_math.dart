@@ -48,11 +48,15 @@ void main() {
       });
 
       test("Float32List View", () {
-        Float32List list = new Float32List.fromList([1.0, 2.0, 3.0]);
-        Vector3 v = new Vector3.view(list);
+        Float32List list = new Float32List.fromList([1.0, 2.0, 3.0, 4.0, 5.0]);
+        Vector3 v = new Vector3.view(list.buffer);
         expect([v.x, v.y, v.z], orderedEquals([1.0, 2.0, 3.0]));
+
+        v = new Vector3.view(list.buffer, 2);
+        expect([v.x, v.y, v.z], orderedEquals([3.0, 4.0, 5.0]));
+
         v.x = 9.0;
-        expect(list, orderedEquals([9.0, 2.0, 3.0]));
+        expect(list, orderedEquals([1.0, 2.0, 9.0, 4.0, 5.0]));
       });
     });
 

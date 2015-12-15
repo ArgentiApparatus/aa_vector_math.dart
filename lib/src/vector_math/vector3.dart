@@ -6,6 +6,8 @@ part of vector_math;
 /// 3D column vector.
 class Vector3 implements Vector {
 
+  static const int NUM_COMPONENTS = 3;
+
   final Float32List _v3storage;
 
   /// Constructs a new vector with all components set to zero.
@@ -29,15 +31,24 @@ class Vector3 implements Vector {
 
   /// Constructs a new vector copying component values from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [numComponents],
+  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
   /// only the *n* components of [this] will be set.
   factory Vector3.fromIterable(Iterable<double> iterable) =>
       new Vector3.zero()..setFromIterable(iterable);
 
-  /// View onto a [Float32List].
+  /// View onto a [ByteBuffer].
   /// 
-  /// Length of [list] must be greater than or equal to [numComponents].
-  Vector3.view(Float32List list): _v3storage = list;
+  /// Changes made to the vector will be visible in the byte buffer and vice versa.
+  /// 
+  /// The view onto the [ByteBuffer] starts at
+  /// [offset] * [Float32List.BYTES_PER_ELEMENT].
+  /// If [offset] is not specified, it defaults to zero.
+  /// 
+  /// Throws RangeError if [offset] is negative, or if
+  /// ([offset] + [NUM_COMPONENTS]) * [Float32List.BYTES_PER_ELEMENT]
+  /// is greater than the length of buffer.
+  Vector3.view(ByteBuffer buffer, [int offset = 0]):
+      _v3storage = new Float32List.view(buffer, offset * Float32List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
 
   String toString() => '[${_v3storage[0]},${_v3storage[1]},${_v3storage[2]}]';
 
@@ -61,8 +72,11 @@ class Vector3 implements Vector {
   /// True if *all* components are zero.
   bool get isZero => _v3storage[0] == 0.0 && _v3storage[1] == 0.0 && _v3storage[2] == 0.0;
 
-  // The number of components in this vector (3).
-  int get numComponents => 3;
+  // The number of components in this vector.
+  int get numComponents => NUM_COMPONENTS;
+
+  // The dimension this vector (same as [numComponents]).
+  int get dimension => NUM_COMPONENTS;
 
   /// Length.
   double get length => Math.sqrt(lengthSquared);
@@ -152,11 +166,11 @@ class Vector3 implements Vector {
 
   /// Set the components by copying them from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [numComponents],
+  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
   /// only the *n* components of [this] will be set.
   setFromIterable(Iterable<double> iterable, [int offset = 0]) {
     int i=0;
-    for(double d in iterable.take(numComponents)) {
+    for(double d in iterable.take(NUM_COMPONENTS)) {
       _v3storage[i++] = d;
     }
   }
