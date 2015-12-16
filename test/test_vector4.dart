@@ -67,12 +67,21 @@ void main() {
         Vector4 v = new Vector4(1.0, 2.0, 3.0, 4.0);
         v.setFrom2(new Vector2(10.0, 20.0));
         expect(v.components, orderedEquals([10.0, 20.0, 0.0, 0.0]));
+
+        v.setFrom2(new Vector2(10.0, 20.0), 300.0);
+        expect(v.components, orderedEquals([10.0, 20.0, 300.0, 0.0]));
+
+        v.setFrom2(new Vector2(10.0, 20.0), 300.0, 400.0);
+        expect(v.components, orderedEquals([10.0, 20.0, 300.0, 400.0]));
       });
 
       test("From 4", () {
         Vector4 v = new Vector4(1.0, 2.0, 3.0, 4.0);
         v.setFrom3(new Vector3(10.0, 20.0, 30.0));
         expect(v.components, orderedEquals([10.0, 20.0, 30.0, 0.0]));
+
+        v.setFrom3(new Vector3(10.0, 20.0, 30.0), 400.0);
+        expect(v.components, orderedEquals([10.0, 20.0, 30.0, 400.0]));
       });
     });
 

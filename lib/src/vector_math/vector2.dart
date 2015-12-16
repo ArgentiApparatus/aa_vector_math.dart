@@ -11,7 +11,7 @@ class Vector2 implements Vector {
   final Float32List _v2storage;
  
   /// Constructs a new vector with all components set to zero.
-  Vector2.zero() : _v2storage = new Float32List(2);
+  Vector2.zero() : _v2storage = new Float32List(NUM_COMPONENTS);
 
   /// Constructs a new vector from component values.
   factory Vector2(double x, double y) => new Vector2.zero()..setComponents(x, y);
@@ -30,8 +30,8 @@ class Vector2 implements Vector {
 
   /// Constructs a new vector copying component values from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
-  /// only the *n* components of [this] will be set.
+  /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
+  /// only the first *n* components of [this] will be set.
   factory Vector2.fromIterable(Iterable<double> iterable) =>
       new Vector2.zero()..setFromIterable(iterable);
 
@@ -149,8 +149,8 @@ class Vector2 implements Vector {
 
   /// Set the components by copying them from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
-  /// only the *n* components of [this] will be set.
+  /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
+  /// only the first *n* components of [this] will be set.
   setFromIterable(Iterable<double> iterable) {
     int i=0;
     for(double d in iterable.take(NUM_COMPONENTS)) {
@@ -158,7 +158,7 @@ class Vector2 implements Vector {
     }
   }
 
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     return (other is Vector2) &&
         (_v2storage[0] == other._v2storage[0]) &&
         (_v2storage[1] == other._v2storage[1]);

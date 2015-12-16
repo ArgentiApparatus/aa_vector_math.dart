@@ -11,7 +11,7 @@ class Vector3 implements Vector {
   final Float32List _v3storage;
 
   /// Constructs a new vector with all components set to zero.
-  Vector3.zero() : _v3storage = new Float32List(3);
+  Vector3.zero() : _v3storage = new Float32List(NUM_COMPONENTS);
 
   /// Constructs a new vector from component values.
   factory Vector3(double x, double y, double z) =>
@@ -31,8 +31,8 @@ class Vector3 implements Vector {
 
   /// Constructs a new vector copying component values from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
-  /// only the *n* components of [this] will be set.
+  /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
+  /// only the first *n* components of [this] will be set.
   factory Vector3.fromIterable(Iterable<double> iterable) =>
       new Vector3.zero()..setFromIterable(iterable);
 
@@ -113,7 +113,7 @@ class Vector3 implements Vector {
   /// Returns absolute of [this].
   Vector3 get absolute => new Vector3.from3(this)..makeAbsolute();
 
-  /// Returns negtive of [this].
+  /// Returns negative of [this].
   Vector3 get negative => new Vector3.from3(this)..negate();
 
   /// Returns normal of [this].
@@ -140,12 +140,14 @@ class Vector3 implements Vector {
     _v3storage[2] = value;
   }
 
-  /// Set [x] and [y] components by copying them from [other], set [z] to zero;
-  setFrom2(Vector2 other) {
+  /// Set [x] and [y] components by copying them from [other].
+  /// 
+  /// If [z] is not provided it defaults to zero;
+  setFrom2(Vector2 other, [double z = 0.0]) {
     final otherStorage = other._v2storage;
     _v3storage[0] = otherStorage[0];
     _v3storage[1] = otherStorage[1];
-    _v3storage[2] = 0.0;
+    _v3storage[2] = z;
   }
 
   /// Set the components by copying them from [other].
@@ -166,8 +168,8 @@ class Vector3 implements Vector {
 
   /// Set the components by copying them from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
-  /// only the *n* components of [this] will be set.
+  /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
+  /// only the first *n* components of [this] will be set.
   setFromIterable(Iterable<double> iterable, [int offset = 0]) {
     int i=0;
     for(double d in iterable.take(NUM_COMPONENTS)) {
@@ -175,7 +177,7 @@ class Vector3 implements Vector {
     }
   }
 
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     return (other is Vector3) &&
         (_v3storage[0] == other._v3storage[0]) &&
         (_v3storage[1] == other._v3storage[1]) &&

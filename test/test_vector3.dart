@@ -67,6 +67,9 @@ void main() {
         Vector3 v = new Vector3(1.0, 2.0, 3.0);
         v.setFrom2(new Vector2(10.0, 20.0));
         expect(v.components, orderedEquals([10.0, 20.0, 0.0]));
+      
+        v.setFrom2(new Vector2(10.0, 20.0), 300.0);
+        expect(v.components, orderedEquals([10.0, 20.0, 300.0]));
       });
     });
 

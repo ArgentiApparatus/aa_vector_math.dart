@@ -11,7 +11,7 @@ class Vector4 implements Vector {
   final Float32List _v4storage;
 
   /// Construct a new vector with all components set to zero.
-  Vector4.zero() : _v4storage = new Float32List(4);
+  Vector4.zero() : _v4storage = new Float32List(NUM_COMPONENTS);
 
   /// Construct a new vector from component values.
   factory Vector4(double x, double y, double z, double w) =>
@@ -31,8 +31,8 @@ class Vector4 implements Vector {
 
   /// Constructs a new vector copying component values from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
-  /// only the *n* components of [this] will be set.
+  /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
+  /// only the first *n* components of [this] will be set.
   factory Vector4.fromIterable(Iterable<double> iterable) =>
       new Vector4.zero()..setFromIterable(iterable);
 
@@ -149,22 +149,26 @@ class Vector4 implements Vector {
     _v4storage[3] = value;
   }
 
-  /// Set [x] and [y] components by copying them from [other], set [z] and [w] to zero;
-  setFrom2(Vector2 other) {
+  /// Set [x] and [y] components by copying them from [other].
+  ///
+  /// If [z] or [w] are not provided they default to zero;
+  setFrom2(Vector2 other, [double z = 0.0, double w = 0.0]) {
     final otherStorage = other._v2storage;
     _v4storage[0] = otherStorage[0];
     _v4storage[1] = otherStorage[1];
-    _v4storage[2] = 0.0;
-    _v4storage[3] = 0.0;
+    _v4storage[2] = z;
+    _v4storage[3] = w;
   }
 
-  /// Set [x], [y] and [z] components by copying them from [other], set [w] to zero;.
-  setFrom3(Vector3 other) {
+  /// Set [x], [y] and [z] components by copying them from [other].
+  /// 
+  /// If [w] is not provided it defaults to zero;
+  setFrom3(Vector3 other, [double w = 0.0]) {
     final otherStorage = other._v3storage;
     _v4storage[0] = otherStorage[0];
     _v4storage[1] = otherStorage[1];
     _v4storage[2] = otherStorage[2];
-    _v4storage[3] = 0.0;
+    _v4storage[3] = w;
   }
 
   /// Set the components by copying them from [other].
@@ -178,8 +182,8 @@ class Vector4 implements Vector {
 
   /// Set the components by copying them from [iterable].
   /// 
-  /// If [iterable] contains *n* elemnts which is less than [NUM_COMPONENTS],
-  /// only the *n* components of [this] will be set.
+  /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
+  /// only the first *n* components of [this] will be set.
   setFromIterable(Iterable<double> iterable) {
     int i=0;
     for(double d in iterable.take(NUM_COMPONENTS)) {
@@ -187,7 +191,7 @@ class Vector4 implements Vector {
     }
   }
 
-  bool operator ==(other) {
+  bool operator ==(Object other) {
     return (other is Vector4) &&
         (_v4storage[0] == other._v4storage[0]) &&
         (_v4storage[1] == other._v4storage[1]) &&

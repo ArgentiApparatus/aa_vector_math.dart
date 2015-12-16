@@ -5,19 +5,57 @@ part of vector_math;
 
 abstract class Vector {
 
+  /// Components as a list.
   List<double> get components;
-  
-  int get numComponents;
 
+  /// True if all components are zero.
   bool get isZero;
 
+  // The number of components in this vector.
+  int get numComponents;
+
+  // The dimension this vector (same as [numComponents]).
+  int get dimension;
+
+  /// Length.
   double get length;
 
+  /// Set the length of the vector.
+  set length(double value);
+
+  /// Length squared.
   double get lengthSquared;
 
+  /// Set all components to zero.
+  setZero();
+
+  /// Set all components to [value].
+  setAll(double value);
+
+  /// Set the components by copying them from [other].
+  setFrom2(Vector2 other);
+
+  /// Set the components by copying them from [other].
+  setFrom3(Vector3 other);
+
+  /// Set the components by copying them from [other].
+  setFrom4(Vector4 other);
+
+  /// Set the components by copying them from [iterable].
+  setFromIterable(Iterable<double> iterable);
+
+  /// Set [this] to its absolute value.
+  makeAbsolute();
+
+  /// Negate [this].
+  negate();
+
+  /// Normalize [this].
+  normalize();
+
+  /// Scale [this] by a scalar value.
+  scale(double scalar);
 }
-
-
 
 /// Dot product of [a] and [b].
 double dot2(Vector2 a, Vector2 b) {
