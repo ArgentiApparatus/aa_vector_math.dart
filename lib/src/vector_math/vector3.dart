@@ -8,10 +8,10 @@ class Vector3 implements Vector {
 
   static const int NUM_COMPONENTS = 3;
 
-  final Float32List _v3storage;
+  final Float32List _storage;
 
   /// Constructs a new vector with all components set to zero.
-  Vector3.zero() : _v3storage = new Float32List(NUM_COMPONENTS);
+  Vector3.zero() : _storage = new Float32List(NUM_COMPONENTS);
 
   /// Constructs a new vector from component values.
   factory Vector3(double x, double y, double z) =>
@@ -48,29 +48,29 @@ class Vector3 implements Vector {
   /// ([offset] + [NUM_COMPONENTS]) * [Float32List.BYTES_PER_ELEMENT]
   /// is greater than the length of buffer.
   Vector3.view(ByteBuffer buffer, [int offset = 0]):
-      _v3storage = new Float32List.view(buffer, offset * Float32List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
+      _storage = new Float32List.view(buffer, offset * Float32List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
 
-  String toString() => '[${_v3storage[0]},${_v3storage[1]},${_v3storage[2]}]';
+  String toString() => '[${_storage[0]},${_storage[1]},${_storage[2]}]';
 
   /// Components as a list: [x, y, z].
-  List<double> get components => _v3storage;
+  List<double> get components => _storage;
 
-  double get x => _v3storage[0];
-  double get y => _v3storage[1];
-  double get z => _v3storage[2];
-  double get r => _v3storage[0];
-  double get g => _v3storage[1];
-  double get b => _v3storage[2];
+  double get x => _storage[0];
+  double get y => _storage[1];
+  double get z => _storage[2];
+  double get r => _storage[0];
+  double get g => _storage[1];
+  double get b => _storage[2];
 
-  set x(double value) { _v3storage[0] = value; }
-  set y(double value) { _v3storage[1] = value; }
-  set z(double value) { _v3storage[2] = value; }
-  set r(double value) { _v3storage[0] = value; }
-  set g(double value) { _v3storage[1] = value; }
-  set b(double value) { _v3storage[2] = value; }
+  set x(double value) { _storage[0] = value; }
+  set y(double value) { _storage[1] = value; }
+  set z(double value) { _storage[2] = value; }
+  set r(double value) { _storage[0] = value; }
+  set g(double value) { _storage[1] = value; }
+  set b(double value) { _storage[2] = value; }
 
   /// True if *all* components are zero.
-  bool get isZero => _v3storage[0] == 0.0 && _v3storage[1] == 0.0 && _v3storage[2] == 0.0;
+  bool get isZero => _storage[0] == 0.0 && _storage[1] == 0.0 && _storage[2] == 0.0;
 
   // The number of components in this vector.
   int get numComponents => NUM_COMPONENTS;
@@ -94,9 +94,9 @@ class Vector3 implements Vector {
       double l = length;
       if (l != 0.0) {
         l = value / l;
-        _v3storage[0] *= l;
-        _v3storage[1] *= l;
-        _v3storage[2] *= l;
+        _storage[0] *= l;
+        _storage[1] *= l;
+        _storage[2] *= l;
       }
     }
   }
@@ -104,9 +104,9 @@ class Vector3 implements Vector {
   /// Length squared.
   double get lengthSquared {
     double sum;
-    sum = (_v3storage[0] * _v3storage[0]);
-    sum += (_v3storage[1] * _v3storage[1]);
-    sum += (_v3storage[2] * _v3storage[2]);
+    sum = (_storage[0] * _storage[0]);
+    sum += (_storage[1] * _storage[1]);
+    sum += (_storage[2] * _storage[2]);
     return sum;
   }
 
@@ -121,49 +121,49 @@ class Vector3 implements Vector {
 
   /// Set all components to zero.
   setZero() {
-    _v3storage[0] = 0.0;
-    _v3storage[1] = 0.0;
-    _v3storage[2] = 0.0;
+    _storage[0] = 0.0;
+    _storage[1] = 0.0;
+    _storage[2] = 0.0;
   }
 
   /// Set the component values.
   setComponents(double x, double y, double z) {
-    _v3storage[0] = x;
-    _v3storage[1] = y;
-    _v3storage[2] = z;
+    _storage[0] = x;
+    _storage[1] = y;
+    _storage[2] = z;
   }
 
   /// Set all components to [value].
   setAll(double value) {
-    _v3storage[0] = value;
-    _v3storage[1] = value;
-    _v3storage[2] = value;
+    _storage[0] = value;
+    _storage[1] = value;
+    _storage[2] = value;
   }
 
   /// Set [x] and [y] components by copying them from [other].
   /// 
   /// If [z] is not provided it defaults to zero;
   setFrom2(Vector2 other, [double z = 0.0]) {
-    final otherStorage = other._v2storage;
-    _v3storage[0] = otherStorage[0];
-    _v3storage[1] = otherStorage[1];
-    _v3storage[2] = z;
+    final otherStorage = other._storage;
+    _storage[0] = otherStorage[0];
+    _storage[1] = otherStorage[1];
+    _storage[2] = z;
   }
 
   /// Set the components by copying them from [other].
   setFrom3(Vector3 other) {
-    final otherStorage = other._v3storage;
-    _v3storage[0] = otherStorage[0];
-    _v3storage[1] = otherStorage[1];
-    _v3storage[2] = otherStorage[2];
+    final otherStorage = other._storage;
+    _storage[0] = otherStorage[0];
+    _storage[1] = otherStorage[1];
+    _storage[2] = otherStorage[2];
   }
 
   /// Set the components by copying them from [other].
   setFrom4(Vector4 other) {
-    final otherStorage = other._v4storage;
-    _v3storage[0] = otherStorage[0];
-    _v3storage[1] = otherStorage[1];
-    _v3storage[2] = otherStorage[2];
+    final otherStorage = other._storage;
+    _storage[0] = otherStorage[0];
+    _storage[1] = otherStorage[1];
+    _storage[2] = otherStorage[2];
   }
 
   /// Set the components by copying them from [iterable].
@@ -173,15 +173,20 @@ class Vector3 implements Vector {
   setFromIterable(Iterable<double> iterable, [int offset = 0]) {
     int i=0;
     for(double d in iterable.take(NUM_COMPONENTS)) {
-      _v3storage[i++] = d;
+      _storage[i++] = d;
     }
   }
 
   bool operator ==(Object other) {
-    return (other is Vector3) &&
-        (_v3storage[0] == other._v3storage[0]) &&
-        (_v3storage[1] == other._v3storage[1]) &&
-        (_v3storage[2] == other._v3storage[2]);
+    if(identical(this, other)) {
+      return true;
+    } else {
+      return
+        (other is Vector3) &&
+        (_storage[0] == other._storage[0]) &&
+        (_storage[1] == other._storage[1]) &&
+        (_storage[2] == other._storage[2]);
+    }
   }
 
   Vector3 operator -() => new Vector3.from3(this)..negate();
@@ -198,16 +203,16 @@ class Vector3 implements Vector {
 
   /// Set [this] to its absolute value.
   makeAbsolute() {
-    _v3storage[0] = _v3storage[0].abs();
-    _v3storage[1] = _v3storage[1].abs();
-    _v3storage[2] = _v3storage[2].abs();
+    _storage[0] = _storage[0].abs();
+    _storage[1] = _storage[1].abs();
+    _storage[2] = _storage[2].abs();
   }
 
   /// Negate [this].
   negate() {
-    _v3storage[0] = -_v3storage[0];
-    _v3storage[1] = -_v3storage[1];
-    _v3storage[2] = -_v3storage[2];
+    _storage[0] = -_storage[0];
+    _storage[1] = -_storage[1];
+    _storage[2] = -_storage[2];
   }
 
   /// Normalize [this].
@@ -215,33 +220,33 @@ class Vector3 implements Vector {
     double l = length;
     if (l != 0.0) {
       l = 1.0 / l;
-      _v3storage[0] *= l;
-      _v3storage[1] *= l;
-      _v3storage[2] *= l;
+      _storage[0] *= l;
+      _storage[1] *= l;
+      _storage[2] *= l;
     }
   }
 
   /// Scale [this] by a scalar value.
   scale(double scalar) {
-    _v3storage[0] = _v3storage[0] * scalar;
-    _v3storage[1] = _v3storage[1] * scalar;
-    _v3storage[2] = _v3storage[2] * scalar;
+    _storage[0] *= scalar;
+    _storage[1] *= scalar;
+    _storage[2] *= scalar;
   }
 
   /// Add [other] to [this].
   add(Vector3 other) {
-    final argStorage = other._v3storage;
-    _v3storage[0] = _v3storage[0] + argStorage[0];
-    _v3storage[1] = _v3storage[1] + argStorage[1];
-    _v3storage[2] = _v3storage[2] + argStorage[2];
+    final otherStorage = other._storage;
+    _storage[0] += otherStorage[0];
+    _storage[1] += otherStorage[1];
+    _storage[2] += otherStorage[2];
   }
 
   /// Subtract [other] from [this].
   subtract(Vector3 other) {
-    final argStorage = other._v3storage;
-    _v3storage[0] = _v3storage[0] - argStorage[0];
-    _v3storage[1] = _v3storage[1] - argStorage[1];
-    _v3storage[2] = _v3storage[2] - argStorage[2];
+    final otherStorage = other._storage;
+    _storage[0] -= otherStorage[0];
+    _storage[1] -= otherStorage[1];
+    _storage[2] -= otherStorage[2];
   }
 
   /// Absolute angle between [this] and [other] in radians.
@@ -255,10 +260,10 @@ class Vector3 implements Vector {
 
   /// Squared distance from [this] to [other]
   double distanceToSquared(Vector3 other) {
-    final otherStorage = other._v3storage;
-    final dx = _v3storage[0] - otherStorage[0];
-    final dy = _v3storage[1] - otherStorage[1];
-    final dz = _v3storage[2] - otherStorage[2];
+    final otherStorage = other._storage;
+    final dx = _storage[0] - otherStorage[0];
+    final dy = _storage[1] - otherStorage[1];
+    final dz = _storage[2] - otherStorage[2];
     return dx * dx + dy * dy + dz * dz;
   }
 }
