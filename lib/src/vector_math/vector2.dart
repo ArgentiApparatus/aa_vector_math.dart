@@ -3,15 +3,65 @@
 
 part of vector_math;
 
+/// Immutable 2D column vector interface.
+abstract class ImmVector2 {
+
+  /// Components as a list.
+  List<double> get components;
+
+  /// True if all components are zero.
+  bool get isZero;
+
+  // The number of components in this vector.
+  int get numComponents;
+
+  // The dimension this vector (same as [numComponents]).
+  int get dimension;
+
+  /// Length.
+  double get length;
+
+  /// Set the length of the vector.
+  set length(double value);
+
+  /// Length squared.
+  double get lengthSquared;
+
+  double get x;
+  double get y;
+
+    /// Returns absolute of [this].
+  Vector2 get absolute;
+
+  /// Returns negative of [this].
+  Vector2 get negative;
+
+  /// Returns normal of [this].
+  Vector2 get normal;
+
+  Vector2 operator -();
+
+  Vector2 operator -(ImmVector2 other);
+
+  Vector2 operator +(ImmVector2 other);
+
+  /// Division by a scalar.
+  Vector2 operator /(double scalar);
+
+  /// Multiplication by a scalar.
+  Vector2 operator *(double scalar);
+}
+
+
 /// 2D column vector.
-class Vector2 implements Vector {
+class Vector2 implements Vector, ImmVector2 {
 
   static const int NUM_COMPONENTS = 2;
 
-  final Float32List _storage;
+  final Float32List _v2storage;
  
   /// Constructs a new vector with all components set to zero.
-  Vector2.zero() : _storage = new Float32List(NUM_COMPONENTS);
+  Vector2.zero() : _v2storage = new Float32List(NUM_COMPONENTS);
 
   /// Constructs a new vector from component values.
   factory Vector2(double x, double y) => new Vector2.zero()..setComponents(x, y);
@@ -20,13 +70,13 @@ class Vector2 implements Vector {
   factory Vector2.all(double value) => new Vector2.zero()..setAll(value);
 
   /// Constructs a new vector copying component values from [other].
-  factory Vector2.from2(Vector2 other) => new Vector2.zero()..setFrom2(other);
+  factory Vector2.from2(ImmVector2 other) => new Vector2.zero()..setFrom2(other);
 
   /// Constructs a new vector copying component values from [other].
-  factory Vector2.from3(Vector3 other) => new Vector2.zero()..setFrom3(other);
+  factory Vector2.from3(ImmVector3 other) => new Vector2.zero()..setFrom3(other);
 
   /// Constructs a new vector copying component values from [other].
-  factory Vector2.from4(Vector4 other) => new Vector2.zero()..setFrom4(other);
+  factory Vector2.from4(ImmVector4 other) => new Vector2.zero()..setFrom4(other);
 
   /// Constructs a new vector copying component values from [iterable].
   /// 
@@ -47,21 +97,21 @@ class Vector2 implements Vector {
   /// ([offset] + [NUM_COMPONENTS]) * [Float32List.BYTES_PER_ELEMENT]
   /// is greater than the length of buffer.
   Vector2.view(ByteBuffer buffer, [int offset = 0]):
-      _storage = new Float32List.view(buffer, offset * Float32List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
+      _v2storage = new Float32List.view(buffer, offset * Float32List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
 
-  /// Components as a list: [x, y].
-  List<double> get components => _storage;
+  /// Components as a list.
+  List<double> get components => _v2storage;
 
-  String toString() => '[${_storage[0]},${_storage[1]}]';
+  String toString() => '[${_v2storage[0]},${_v2storage[1]}]';
 
-  double get x => _storage[0];
-  double get y => _storage[1];
+  double get x => _v2storage[0];
+  double get y => _v2storage[1];
 
-  set x(double value) { _storage[0] = value; }
-  set y(double value) { _storage[1] = value; }
+  set x(double value) { _v2storage[0] = value; }
+  set y(double value) { _v2storage[1] = value; }
 
   /// True if all components are zero.
-  bool get isZero => _storage[0] == 0.0 && _storage[1] == 0.0;
+  bool get isZero => _v2storage[0] == 0.0 && _v2storage[1] == 0.0;
 
   // The number of components in this vector.
   int get numComponents => NUM_COMPONENTS;
@@ -85,8 +135,8 @@ class Vector2 implements Vector {
       double l = length;
       if (l != 0.0) {
         l = value / l;
-        _storage[0] *= l;
-        _storage[1] *= l;
+        _v2storage[0] *= l;
+        _v2storage[1] *= l;
       }
     }
   }
@@ -94,8 +144,8 @@ class Vector2 implements Vector {
   /// Length squared.
   double get lengthSquared {
     double sum;
-    sum = (_storage[0] * _storage[0]);
-    sum += (_storage[1] * _storage[1]);
+    sum = (_v2storage[0] * _v2storage[0]);
+    sum += (_v2storage[1] * _v2storage[1]);
     return sum;
   }
 
@@ -110,41 +160,38 @@ class Vector2 implements Vector {
 
   /// Set all components to zero.
   setZero() {
-    _storage[0] = 0.0;
-    _storage[1] = 0.0;
+    _v2storage[0] = 0.0;
+    _v2storage[1] = 0.0;
   }
 
   /// Set the component values.
   setComponents(double x, double y) {
-    _storage[0] = x;
-    _storage[1] = y;
+    _v2storage[0] = x;
+    _v2storage[1] = y;
   }
 
   /// Set all components to [value].
   setAll(double value) {
-    _storage[0] = value;
-    _storage[1] = value;
+    _v2storage[0] = value;
+    _v2storage[1] = value;
   }
 
   /// Set the components by copying them from [other].
-  setFrom2(Vector2 other) {
-    final otherStorage = other._storage;
-    _storage[0] = otherStorage[0];
-    _storage[1] = otherStorage[1];
+  setFrom2(ImmVector2 other) {
+    _v2storage[0] = other.x;
+    _v2storage[1] = other.y;
   }
 
   /// Set the components by copying them from [other].
-  setFrom3(Vector3 other) {
-    final otherStorage = other._storage;
-    _storage[0] = otherStorage[0];
-    _storage[1] = otherStorage[1];
+  setFrom3(ImmVector3 other) {
+    _v2storage[0] = other.x;
+    _v2storage[1] = other.y;
   }
 
   /// Set the components by copying them from [other].
-  setFrom4(Vector4 other) {
-    final otherStorage = other._storage;
-    _storage[0] = otherStorage[0];
-    _storage[1] = otherStorage[1];
+  setFrom4(ImmVector4 other) {
+    _v2storage[0] = other.x;
+    _v2storage[1] = other.y;
   }
 
   /// Set the components by copying them from [iterable].
@@ -154,7 +201,7 @@ class Vector2 implements Vector {
   setFromIterable(Iterable<double> iterable) {
     int i=0;
     for(double d in iterable.take(NUM_COMPONENTS)) {
-      _storage[i++] = d;
+      _v2storage[i++] = d;
     }
   }
 
@@ -162,18 +209,17 @@ class Vector2 implements Vector {
     if(identical(this, other)) {
       return true;
     } else {
-      return
-        (other is Vector2) &&
-        (_storage[0] == other._storage[0]) &&
-        (_storage[1] == other._storage[1]);
+      return (other is ImmVector2) &&
+        (this.x == other.x) &&
+        (this.y == other.y);
     }
   }
 
   Vector2 operator -() => new Vector2.from2(this)..negate();
 
-  Vector2 operator -(Vector2 other) => new Vector2.from2(this)..subtract(other);
+  Vector2 operator -(ImmVector2 other) => new Vector2.from2(this)..subtract(other);
 
-  Vector2 operator +(Vector2 other) => new Vector2.from2(this)..add(other);
+  Vector2 operator +(ImmVector2 other) => new Vector2.from2(this)..add(other);
 
   /// Division by a scalar.
   Vector2 operator /(double scalar) => new Vector2.from2(this)..scale(1.0 / scalar);
@@ -183,14 +229,14 @@ class Vector2 implements Vector {
 
   /// Set [this] to its absolute value.
   makeAbsolute() {
-    _storage[0] = _storage[0].abs();
-    _storage[1] = _storage[1].abs();
+    _v2storage[0] = _v2storage[0].abs();
+    _v2storage[1] = _v2storage[1].abs();
   }
 
   /// Negate [this].
   negate() {
-    _storage[0] = -_storage[0];
-    _storage[1] = -_storage[1];
+    _v2storage[0] = -_v2storage[0];
+    _v2storage[1] = -_v2storage[1];
   }
 
   /// Normalize [this].
@@ -198,45 +244,42 @@ class Vector2 implements Vector {
     double l = length;
     if (l != 0.0) {
       l = 1.0 / l;
-      _storage[0] *= l;
-      _storage[1] *= l;
+      _v2storage[0] *= l;
+      _v2storage[1] *= l;
     }
   }
 
   /// Scale [this] by a scalar value.
   scale(double scalar) {
-    _storage[1] *= scalar;
-    _storage[0] *= scalar;
+    _v2storage[0] *= scalar;
+    _v2storage[1] *= scalar;
   }
 
   /// Add [other] to [this].
-  add(Vector2 other) {
-    final otherStorage = other._storage;
-    _storage[0] += otherStorage[0];
-    _storage[1] += otherStorage[1];
+  add(ImmVector2 other) {
+    _v2storage[0] += other.x;
+    _v2storage[1] += other.y;
   }
 
   /// Subtract [other] from [this].
-  subtract(Vector2 other) {
-    final otherStorage = other._storage;
-    _storage[0] -= otherStorage[0];
-    _storage[1] -= otherStorage[1];
+  subtract(ImmVector2 other) {
+    _v2storage[0] -= other.x;
+    _v2storage[1] -= other.y;
   }
-  
+
   /// Absolute angle between [this] and [other] in radians.
-  double angleBetween(Vector2 other) {
+  double angleBetween(ImmVector2 other) {
     final d = dot2(this, other);
     return Math.acos(d / Math.sqrt(lengthSquared * other.lengthSquared));
   }
 
   /// Distance from [this] to [other]
-  double distanceTo(Vector2 other) => Math.sqrt(distanceToSquared(other));
+  double distanceTo(ImmVector2 other) => Math.sqrt(distanceToSquared(other));
 
   /// Squared distance from [this] to [other]
-  double distanceToSquared(Vector2 other) {
-    final otherStorage = other._storage;
-    final dx = _storage[0] - otherStorage[0];
-    final dy = _storage[1] - otherStorage[1];
+  double distanceToSquared(ImmVector2 other) {
+    final dx = x - other.x;
+    final dy = y - other.y;
     return dx * dx + dy * dy;
   }
 }
