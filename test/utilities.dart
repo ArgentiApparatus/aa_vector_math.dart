@@ -5,7 +5,7 @@ library test_utilities;
 
 import 'package:test/test.dart';
 
-import 'package:aa_vector_math/vector_math.dart';
+import 'package:aa_vectors/vectors.dart';
 
 
 

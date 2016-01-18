@@ -1,11 +1,10 @@
-name: aa_vector_math
+name: aa_vectors
 version: 0.1.0
 author: Gary Smith <argentiapparatus@gmail.com>
-description: A vector and matrix math library https://github.com/google/vector_math.dart
-homepage: https://github.com/argentiapparatus/aa_vector_math.dart
+description: A 2D and 3D vector library for games and simulations.
+homepage: https://github.com/argentiapparatus/aa_vectors.dart
 environment:
   sdk: '>=1.8.3 <2.0.0'
 dependencies:
-  quiver: '^0.21.0'
 dev_dependencies:
   test: '^0.12.5'

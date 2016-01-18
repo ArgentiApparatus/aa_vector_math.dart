@@ -1,35 +1,59 @@
-# AA Vector Math
-
-## Introduction
+# aa_vectors.dart - Argenti Apparatus's Vectors
 
 A vector and matrix math library for 2D and 3D applications.
 
-*Currently undergoing construction*
+[Github Page](https://github.com/argentiapparatus/aa_vectors.dart)
 
 ## Features
 
-* 2D and 3D vectors  
-* 2x2, 3x3 and 4x4 matrices
+* Vectors
+* Vector lists
+* Affine transformations
+* Perspective transformations
+* OpenGL friendliness
 
-*TODO: document more features*
+### Currently Implemented
+* 2D and 3D vectors
+* 2D rotation
 
+### Currently Unimplemented
+* Everything else
 
-## Getting Started
+## Using aa_vectors.dart
 
-Dependencies:
+### Dependencies:
+
+aa_vectors.dart is not (yet) available on Pub and must be had from Github.
+
+To get the latest commited version (which may or may not be broken): 
+
+In your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   vector_math:
-    git: https://github.com/argentiapparatus/aa_vector_math.dart.git
+    git: https://github.com/argentiapparatus/aa_vectors.dart.git
 ```
+To get a specific release, tag or branch (which may or may not be broken): 
 
-*TODO: document Github releases*
+```yaml
+dependencies:
+  vector_math:
+    git: https://github.com/argentiapparatus/aa_vectors.dart.git
+    ref: some-identifer
+```
+See the [aa_vectors.dart Github page](https://github.com/argentiapparatus/aa_vectors.dart)
+to find release, tags and branches.
 
-Imports:
+See [Pub Dependencies - Github Packages](https://www.dartlang.org/tools/pub/dependencies.html#git-packages)
+for more details.
+
+### Imports:
 
 ```dart
-import 'package:aa_vector_math/vector_math.dart';
+import 'package:aa_vectors/vectors.dart';
+import 'package:aa_vectors/vector_lists.dart';
+import 'package:aa_vectors/opengl.dart';
 ```
 
 ## Documentation
@@ -38,9 +62,20 @@ import 'package:aa_vector_math/vector_math.dart';
 
 ## Credits
 
-This Dart library was inspired by and derived from John McCutchan's / Google's [vector_math.dart](https://github.com/google/vector_math.dart) library.
+aa_vectors.dart was inspired by John McCutchan's / Google's
+[vector_math.dart](https://github.com/google/vector_math.dart) library.
 
-Vector, vector lists, matrix and quaternion classes were drawn directly from vector&#95;math.dart. Class APIs have been heavily reworked in an effort to adhere more closely to up-to-date Dart practices (see [Effective Dart](https://www.dartlang.org/effective-dart/)), and also as an excercise in API design for the author. Method implementations (i.e., the hard parts :)) are largely unchanged from those found in vector&#95;math.dart;
+Vector and vector list classes were drawn directly from vector&#95;math.dart.
+However, the class APIs have been heavily reworked in an effort to adhere more
+closely to up-to-date Dart practices.
+(see [Effective Dart](https://www.dartlang.org/effective-dart/)),
+and also as an excercise in API design for the author. Method implementations
+(i.e., the hard parts) are largely unchanged from those found in
+vector&#95;math.dart;
+
+aa_vectors.dart features rotation and perspective classes instead of general
+matrices, quaternions etc. The required math implementations are again drawn
+from vector&#95;math.dart.
 
 
 

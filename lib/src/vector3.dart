@@ -1,17 +1,19 @@
 // Copyright (c) 2015, Gary Smith. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-part of vector_math;
+part of vectors;
 
 /// 3D column vector.
 class Vector3 implements Vector {
 
+  // Number of components.
   static const int NUM_COMPONENTS = 3;
 
-  final Float32List _storage;
+  // Component storage.
+  final Float64List _storage;
 
   /// Constructs a new vector with all components set to zero.
-  Vector3.zero() : _storage = new Float32List(NUM_COMPONENTS);
+  Vector3.zero() : _storage = new Float64List(NUM_COMPONENTS);
 
   /// Constructs a new vector from component values.
   factory Vector3(double x, double y, double z) =>
@@ -26,9 +28,6 @@ class Vector3 implements Vector {
   /// Constructs a new vector copying component values from [other].
   factory Vector3.from3(Vector3 other) => new Vector3.zero()..setFrom3(other);
 
-  /// Constructs a new vector copying component values from [other].
-  factory Vector3.from4(Vector4 other) => new Vector3.zero()..setFrom4(other);
-
   /// Constructs a new vector copying component values from [iterable].
   /// 
   /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
@@ -41,83 +40,14 @@ class Vector3 implements Vector {
   /// Changes made to the vector will be visible in the byte buffer and vice versa.
   /// 
   /// The view onto the [ByteBuffer] starts at
-  /// [offset] * [Float32List.BYTES_PER_ELEMENT].
+  /// [offset] * [Float64List.BYTES_PER_ELEMENT].
   /// If [offset] is not specified, it defaults to zero.
   /// 
   /// Throws RangeError if [offset] is negative, or if
-  /// ([offset] + [NUM_COMPONENTS]) * [Float32List.BYTES_PER_ELEMENT]
+  /// ([offset] + [NUM_COMPONENTS]) * [Float64List.BYTES_PER_ELEMENT]
   /// is greater than the length of buffer.
   Vector3.view(ByteBuffer buffer, [int offset = 0]):
-      _storage = new Float32List.view(buffer, offset * Float32List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
-
-  String toString() => '[${_storage[0]},${_storage[1]},${_storage[2]}]';
-
-  /// Components as a list: [x, y, z].
-  List<double> get components => _storage;
-
-  double get x => _storage[0];
-  double get y => _storage[1];
-  double get z => _storage[2];
-  double get r => _storage[0];
-  double get g => _storage[1];
-  double get b => _storage[2];
-
-  set x(double value) { _storage[0] = value; }
-  set y(double value) { _storage[1] = value; }
-  set z(double value) { _storage[2] = value; }
-  set r(double value) { _storage[0] = value; }
-  set g(double value) { _storage[1] = value; }
-  set b(double value) { _storage[2] = value; }
-
-  /// True if *all* components are zero.
-  bool get isZero => _storage[0] == 0.0 && _storage[1] == 0.0 && _storage[2] == 0.0;
-
-  // The number of components in this vector.
-  int get numComponents => NUM_COMPONENTS;
-
-  // The dimension this vector (same as [numComponents]).
-  int get dimension => NUM_COMPONENTS;
-
-  /// Length.
-  double get length => Math.sqrt(lengthSquared);
-
-  /// Set the length of the vector.
-  /// 
-  /// A negative [value] will reverse the vector's orientation and a [value] of
-  /// zero will set the vector to zero.
-  /// 
-  /// If the length of the vector is already zero, invoking this method has no effect. 
-  set length(double value) {
-    if (value == 0.0) {
-      setZero();
-    } else {
-      double l = length;
-      if (l != 0.0) {
-        l = value / l;
-        _storage[0] *= l;
-        _storage[1] *= l;
-        _storage[2] *= l;
-      }
-    }
-  }
-
-  /// Length squared.
-  double get lengthSquared {
-    double sum;
-    sum = (_storage[0] * _storage[0]);
-    sum += (_storage[1] * _storage[1]);
-    sum += (_storage[2] * _storage[2]);
-    return sum;
-  }
-
-  /// Returns absolute of [this].
-  Vector3 get absolute => new Vector3.from3(this)..makeAbsolute();
-
-  /// Returns negative of [this].
-  Vector3 get negative => new Vector3.from3(this)..negate();
-
-  /// Returns normal of [this].
-  Vector3 get normal => new Vector3.from3(this)..normalize();
+      _storage = new Float64List.view(buffer, offset * Float64List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
 
   /// Set all components to zero.
   setZero() {
@@ -158,24 +88,154 @@ class Vector3 implements Vector {
     _storage[2] = otherStorage[2];
   }
 
-  /// Set the components by copying them from [other].
-  setFrom4(Vector4 other) {
-    final otherStorage = other._storage;
-    _storage[0] = otherStorage[0];
-    _storage[1] = otherStorage[1];
-    _storage[2] = otherStorage[2];
-  }
-
   /// Set the components by copying them from [iterable].
   /// 
   /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
   /// only the first *n* components of [this] will be set.
-  setFromIterable(Iterable<double> iterable, [int offset = 0]) {
+  setFromIterable(Iterable<double> iterable) {
     int i=0;
     for(double d in iterable.take(NUM_COMPONENTS)) {
       _storage[i++] = d;
     }
   }
+
+  String toString() => '[${_storage[0]},${_storage[1]},${_storage[2]}]';
+
+  /// Components as a list: [x, y, z].
+  List<double> get components => _storage;
+
+  double get x => _storage[0];
+  double get y => _storage[1];
+  double get z => _storage[2];
+
+  set x(double value) { _storage[0] = value; }
+  set y(double value) { _storage[1] = value; }
+  set z(double value) { _storage[2] = value; }
+
+  /// True if all components are zero.
+  bool get isZero => _storage[0] == 0.0 && _storage[1] == 0.0 && _storage[2] == 0.0;
+
+  // The number of components in this vector.
+  int get numComponents => NUM_COMPONENTS;
+
+  /// Length.
+  double get length => Math.sqrt(lengthSquared);
+
+  /// Set the length of the vector.
+  /// 
+  /// A negative [value] will reverse the vector's orientation and a [value] of
+  /// zero will set the vector to zero.
+  /// 
+  /// If the length of the vector is already zero, invoking this method has no effect. 
+  set length(double value) {
+    if (value == 0.0) {
+      setZero();
+    } else {
+      double l = length;
+      if (l != 0.0) {
+        l = value / l;
+        _storage[0] *= l;
+        _storage[1] *= l;
+        _storage[2] *= l;
+      }
+    }
+  }
+
+  /// Length squared.
+  double get lengthSquared {
+    double sum;
+    sum = (_storage[0] * _storage[0]);
+    sum += (_storage[1] * _storage[1]);
+    sum += (_storage[2] * _storage[2]);
+    return sum;
+  }
+
+  /// Set [this] to its absolute value.
+  absolutize() {
+    _storage[0] = _storage[0].abs();
+    _storage[1] = _storage[1].abs();
+    _storage[2] = _storage[2].abs();
+  }
+
+  /// Negate [this].
+  negate() {
+    _storage[0] = -_storage[0];
+    _storage[1] = -_storage[1];
+    _storage[2] = -_storage[2];
+  }
+
+  /// Normalize [this].
+  normalize() {
+    double l = length;
+    if (l != 0.0) {
+      l = 1.0 / l;
+      _storage[0] *= l;
+      _storage[1] *= l;
+      _storage[2] *= l;
+    }
+  }
+
+  /// Add [other] to [this].
+  add(Vector3 other) {
+    final otherStorage = other._storage;
+    _storage[0] += otherStorage[0];
+    _storage[1] += otherStorage[1];
+    _storage[2] += otherStorage[2];
+  }
+
+  /// Subtract [other] from [this].
+  subtract(Vector3 other) {
+    final otherStorage = other._storage;
+    _storage[0] -= otherStorage[0];
+    _storage[1] -= otherStorage[1];
+    _storage[2] -= otherStorage[2];
+  }
+
+  /// Scale [this] by a scalar value.
+  scale(double scalar) {
+    _storage[0] *= scalar;
+    _storage[1] *= scalar;
+    _storage[2] *= scalar;
+  }
+
+  /// Set [this] to absolute value of [other].
+  setAbsoluteOf(Vector3 other) {
+    this..setFrom3(other)..absolutize();
+  }
+
+  /// Set [this] to negative value of [other].
+  setNegativeOf(Vector3 other) {
+    this..setFrom3(other)..negate();
+  }
+
+  /// Set [this] to negative value of [other].
+  setNormlOf(Vector3 other) {
+    this..setFrom3(other)..normalize();
+  }
+
+  /// Set [this] to addition of [a] and [b].
+  setAdditionOf(Vector3 a, Vector3 b) {
+    this..setFrom3(a)..add(b);
+  }
+
+  /// Set [this] to subtraction of [a] and [b].
+  setSubtractionOf(Vector3 a, Vector3 b) {
+    this..setFrom3(a)..subtract(b);
+  }
+  
+  /// Set [this] to scaled value of [other].
+  setScaledOf(Vector3 other, double scalar) {
+    this..setFrom3(other)..scale(scalar);
+  }
+
+  /// Returns absolute property of [this].
+  Vector3 get absolute => new Vector3.from3(this)..absolutize();
+
+  /// Returns negative property of [this].
+  Vector3 get negative => new Vector3.from3(this)..negate();
+
+  /// Returns normal property of [this].
+  Vector3 get normal => new Vector3.from3(this)..normalize();
 
   bool operator ==(Object other) {
     if(identical(this, other)) {
@@ -200,54 +260,6 @@ class Vector3 implements Vector {
 
   /// Multiplication by a scalar.
   Vector3 operator *(double scalar) => new Vector3.from3(this)..scale(scalar);
-
-  /// Set [this] to its absolute value.
-  makeAbsolute() {
-    _storage[0] = _storage[0].abs();
-    _storage[1] = _storage[1].abs();
-    _storage[2] = _storage[2].abs();
-  }
-
-  /// Negate [this].
-  negate() {
-    _storage[0] = -_storage[0];
-    _storage[1] = -_storage[1];
-    _storage[2] = -_storage[2];
-  }
-
-  /// Normalize [this].
-  normalize() {
-    double l = length;
-    if (l != 0.0) {
-      l = 1.0 / l;
-      _storage[0] *= l;
-      _storage[1] *= l;
-      _storage[2] *= l;
-    }
-  }
-
-  /// Scale [this] by a scalar value.
-  scale(double scalar) {
-    _storage[0] *= scalar;
-    _storage[1] *= scalar;
-    _storage[2] *= scalar;
-  }
-
-  /// Add [other] to [this].
-  add(Vector3 other) {
-    final otherStorage = other._storage;
-    _storage[0] += otherStorage[0];
-    _storage[1] += otherStorage[1];
-    _storage[2] += otherStorage[2];
-  }
-
-  /// Subtract [other] from [this].
-  subtract(Vector3 other) {
-    final otherStorage = other._storage;
-    _storage[0] -= otherStorage[0];
-    _storage[1] -= otherStorage[1];
-    _storage[2] -= otherStorage[2];
-  }
 
   /// Absolute angle between [this] and [other] in radians.
   double angleBetween(Vector3 other) {

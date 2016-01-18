@@ -1,7 +1,7 @@
 // Copyright (c) 2015, Gary Smith. All rights reserved. Use of this source code
 // is governed by a BSD-style license that can be found in the LICENSE file.
 
-part of vector_math;
+part of vectors;
 
 abstract class Vector {
 
@@ -13,9 +13,6 @@ abstract class Vector {
 
   // The number of components in this vector.
   int get numComponents;
-
-  // The dimension this vector (same as [numComponents]).
-  int get dimension;
 
   /// Length.
   double get length;
@@ -38,14 +35,11 @@ abstract class Vector {
   /// Set the components by copying them from [other].
   setFrom3(Vector3 other);
 
-  /// Set the components by copying them from [other].
-  setFrom4(Vector4 other);
-
   /// Set the components by copying them from [iterable].
   setFromIterable(Iterable<double> iterable);
 
   /// Set [this] to its absolute value.
-  makeAbsolute();
+  absolutize();
 
   /// Negate [this].
   negate();
@@ -69,15 +63,6 @@ double dot3(Vector3 a, Vector3 b) {
   double sum = a._storage[0] * b._storage[0];
   sum += a._storage[1] * b._storage[1];
   sum += a._storage[2] * b._storage[2];
-  return sum;
-}
-
-/// Dot product of [a] and [b].
-double dot4(Vector4 a, Vector4 b) {
-  double sum = a._storage[0] * b._storage[0];
-  sum += a._storage[1] * b._storage[1];
-  sum += a._storage[2] * b._storage[2];
-  sum += a._storage[3] * b._storage[3];
   return sum;
 }
 
