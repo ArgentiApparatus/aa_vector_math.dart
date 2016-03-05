@@ -9,7 +9,7 @@ A vector and matrix math library for 2D and 3D applications.
 * Vectors
 * Vector lists
 * Affine transformations
-* Perspective transformations
+* Projection transformations
 * OpenGL friendliness
 
 ### Currently Implemented
@@ -60,6 +60,7 @@ import 'package:aa_vectors/opengl.dart';
 
 *TODO*
 
+
 ## Credits
 
 aa_vectors.dart was inspired by John McCutchan's / Google's
@@ -71,7 +72,7 @@ closely to up-to-date Dart practices.
 (see [Effective Dart](https://www.dartlang.org/effective-dart/)),
 and also as an excercise in API design for the author. Method implementations
 (i.e., the hard parts) are largely unchanged from those found in
-vector&#95;math.dart;
+vector&#95;math.dart.
 
 aa_vectors.dart features rotation and perspective classes instead of general
 matrices, quaternions etc. The required math implementations are again drawn

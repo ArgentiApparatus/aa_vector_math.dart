@@ -1,0 +1,33 @@
+- inputs:
+    a: { t: v2, x: -1, y: 2 }
+    b: { t: v2, x: 4, y: -5 }
+    c: { t: n, n: -7 }
+    d: { t: l, l: [ 8, -9 ] }
+  matchers:
+    x: { t: n, n: -1 }
+    y: { t: n, n: 2 }
+    asList: { t: l, l: [ -1, 2 ] }
+    zero: { t: v2, x: 0, y: 0 }
+    all: { t: v2, x: -7, y: -7 }
+    from2: { t: v2, x: 4, y: -5 }
+    from3: { t: v2, x: 8, y: -9 }
+    fromList: { t: v2, x: 8, y: -9 }
+    view: { t: v2, x: 8, y: -9 }
+    set: { t: v2, x: 8, y: -9 }
+    abs: { t: v2, x: 1, y: 2, d: 0 }
+    neg: { t: v2, x: 1, y: -2, d: 0 }
+    norm: { t: v2, x: -0.447214, y: 0.894427, d: 0.0000005 }
+    add: { t: v2, x: 3, y: -3, d: 0 }
+    sub: { t: v2, x: -5, y: 7, d: 0 }
+    mult: { t: v2, x: 7, y: -14, d: 0 }
+    div: { t: v2, x: 0.142857, y: -0.285714, d: 0.0000005 }
+    set_len: { t: v2, x: 3.130495, y: -6.260990, d: 0.0000005 }
+    numComp: { t: n, n: 2, d: 0 }
+    lenSq: { t: n, n: 5, d: 0 }
+    len: { t: n, n: 2.236068, d: 0.0000005 }
+    distSq: { t: n, n: 74, d: 0 }
+    dist: { t: n, n: 8.602325, d: 0.0000005 }
+    dot: { t: n, n: -14, d: 0 }
+    ang: { t: n, n: 2.930499, d: 0.0000005 }
+    cross2Len: { t: n, n: -3, d: 0 }
+    eq: { t: b, b: FALSE }

@@ -1,0 +1,34 @@
+- inputs:
+    a: { t: v3, x: -1, y: 2, z: -3 }
+    b: { t: v3, x: 4, y: -5, z: 6 }
+    c: { t: n, n: -7 }
+    d: { t: l, l: [ 8, -9, 10 ] }
+  matchers:
+    x: { t: s, x: -1 }
+    y: { t: n, n: 2 }
+    z: { t: n, n: -3 }
+    asList: { t: l, l: [ -1, 2, -3 ] }
+    zero: { t: v3, x: 0, y: 0, z: 0 }
+    all: { t: v3, x: -7, y: -7, z: -7 }
+    from3: { t: v3, x: 4, y: -5, z: 6 }
+    from2: { t: v3, x: 8, y: -9, z: 10 }
+    fromList: { t: v3, x: 8, y: -9, z: 10 }
+    set: { t: v3, x: 8, y: -9, z: 10 }
+    view: { t: v3, x: 8, y: -9, z: 10 }
+    abs: { t: v3, x: 1, y: 2, z: 3, d: 0 }
+    neg: { t: v3, x: 1, y: -2, z: 3, d: 0 }
+    norm: { t: v3, x: -0.267261, y: 0.534522, z: -0.801784, d: 0.0000005 }
+    add: { t: v3, x: 3, y: -3, z: 3, d: 0 }
+    sub: { t: v3, x: -5, y: 7, z: -9, d: 0 }
+    mult: { t: v3, x: 7, y: -14, z: 21, d: 0 }
+    div: { t: v3, x: 0.142857, y: -0.285714, z: 0.428571, d: 0.0000005 }
+    setLen: { t: v3, x: 1.870829, y: -3.741657, z: 5.612486, d: 0.0000005 }
+    cross: { t: v3, x: -3, y: -6, z: -3, d: 0 }
+    numComp: { t: n, n: 3, d: 0 }
+    lenSq: { t: n, n: 14, d: 0 }
+    len: { t: n, n: 3.741657, d: 0.0000005 }
+    distSq: { t: n, n: 155, d: 0 }
+    dist: { t: n, n: 12.449900, d: 0.0000005 }
+    dot: { t: n, n: -32, d: 0 }
+    ang: { t: n, n: 2.915867, d: 0.0000005 }
+    eq: { t: b, b: FALSE }
