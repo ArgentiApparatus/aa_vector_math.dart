@@ -7,14 +7,9 @@ A vector and matrix math library for 2D and 3D applications.
 ## Features
 
 * Vectors
-* Vector lists
-* Affine transformations
-* Projection transformations
-* OpenGL friendliness
 
 ### Currently Implemented
 * 2D and 3D vectors
-* 2D rotation
 
 ### Currently Unimplemented
 * Everything else

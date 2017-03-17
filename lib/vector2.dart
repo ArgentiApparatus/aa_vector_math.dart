@@ -1,52 +1,32 @@
-// Copyright (c) 2015, Gary Smith. All rights reserved. Use of this source code
-// is governed by a BSD-style license that can be found in the LICENSE file.
-
-part of vectors;
+import 'dart:typed_data';
+import 'dart:math' as Math;
 
 /// 2D vector.
-class Vector2 implements Vector {
+class Vector2 {
+
+  String toString() => '[${_storage[0]},${_storage[1]}]';
 
   // Number of components.
-  static const int NUM_COMPONENTS = 2;
+  static const int DIM = 2;
 
   // Component storage.
   final Float64List _storage;
 
   /// Constructs a new vector with all components set to zero.
-  Vector2.zero() : _storage = new Float64List(NUM_COMPONENTS);
+  Vector2.zero() : _storage = new Float64List(DIM);
 
   /// Constructs a new vector from component values.
   factory Vector2(num x, num y) => new Vector2.zero()..setTo(x, y);
 
-  /// Constructs a new vector with all components set to [value].
-  factory Vector2.all(num value) => new Vector2.zero()..setAll(value);
-
   /// Constructs a new vector copying component values from [other].
-  factory Vector2.from2(Vector2 other) => new Vector2.zero()..setFrom2(other);
-
-  /// Constructs a new vector copying component values from [other].
-  factory Vector2.from3(Vector3 other) => new Vector2.zero()..setFrom3(other);
+  factory Vector2.from(Vector2 other) => new Vector2.zero()..setFrom(other);
 
   /// Constructs a new vector copying component values from [iterable].
   ///
   /// If [iterable] contains *n* elements which is less than [NUM_COMPONENTS],
   /// only the first *n* components of [this] will be set.
-  factory Vector2.fromIterable(Iterable<double> iterable) =>
+  factory Vector2.fromIterable(Iterable<num> iterable) =>
       new Vector2.zero()..setFromIterable(iterable);
-
-  /// View onto a [ByteBuffer].
-  ///
-  /// Changes made to the vector will be visible in the byte buffer and vice versa.
-  ///
-  /// The view onto the [ByteBuffer] starts at
-  /// [offset] * [Float64List.BYTES_PER_ELEMENT].
-  /// If [offset] is not specified, it defaults to zero.
-  ///
-  /// Throws RangeError if [offset] is negative, or if
-  /// ([offset] + [NUM_COMPONENTS]) * [Float64List.BYTES_PER_ELEMENT]
-  /// is greater than the length of buffer.
-  Vector2.view(ByteBuffer buffer, [int offset = 0]):
-      _storage = new Float64List.view(buffer, offset * Float64List.BYTES_PER_ELEMENT, NUM_COMPONENTS);
 
   /// Set all components to zero.
   void setZero() {
@@ -60,21 +40,8 @@ class Vector2 implements Vector {
     _storage[1] = y.toDouble();
   }
 
-  /// Set all components to [value].
-  void setAll(num value) {
-    _storage[0] = value.toDouble();
-    _storage[1] = value.toDouble();
-  }
-
   /// Set [x] and [y] components by copying them from [other].
-  void setFrom2(Vector2 other) {
-    final otherStorage = other._storage;
-    _storage[0] = otherStorage[0];
-    _storage[1] = otherStorage[1];
-  }
-
-  /// Set the components by copying them from [other].
-  void setFrom3(Vector3 other) {
+  void setFrom(Vector2 other) {
     final otherStorage = other._storage;
     _storage[0] = otherStorage[0];
     _storage[1] = otherStorage[1];
@@ -86,18 +53,10 @@ class Vector2 implements Vector {
   /// only the first *n* components of [this] will be set.
   void setFromIterable(Iterable<num> iterable) {
     int i=0;
-    for(num d in iterable.take(NUM_COMPONENTS)) {
+    for(num d in iterable.take(DIM)) {
       _storage[i++] = d.toDouble();
     }
   }
-
-  String toString() => '[${_storage[0]},${_storage[1]}]';
-
-  /// Components as a [List]: [x, y].
-  List<double> asList() => _storage;
-
-  /// Components as a [Float64List]: [x, y].
-  Float64List asFloat64List() => _storage;
 
   double get x => _storage[0];
   double get y => _storage[1];
@@ -108,8 +67,8 @@ class Vector2 implements Vector {
   /// True if all components are zero.
   bool get isZero => _storage[0] == 0.0 && _storage[1] == 0.0;
 
-  // The number of components in this vector.
-  int get numComponents => NUM_COMPONENTS;
+  // The number of components (dimension) in this vector.
+  int get dim => DIM;
 
   /// Length.
   double get length => Math.sqrt(lengthSquared);
@@ -191,49 +150,44 @@ class Vector2 implements Vector {
 
   /// Set [this] to absolute value of [other].
   void setAbsoluteOf(Vector2 other) {
-    this..setFrom2(other)..absolutize();
+    this..setFrom(other)..absolutize();
   }
 
   /// Set [this] to negative value of [other].
   void setNegativeOf(Vector2 other) {
-    this..setFrom2(other)..negate();
+    this..setFrom(other)..negate();
   }
 
   /// Set [this] to normal value of [other].
   void setNormalOf(Vector2 other) {
-    this..setFrom2(other)..normalize();
+    this..setFrom(other)..normalize();
   }
 
   /// Set [this] to addition of [other] and [another].
   void setAdditionOf(Vector2 other, Vector2 another) {
-    this..setFrom2(other)..add(another);
+    this..setFrom(other)..add(another);
   }
 
   /// Set [this] to subtraction of [other] and [another].
   void setSubtractionOf(Vector2 other, Vector2 another) {
-    this..setFrom2(other)..subtract(another);
+    this..setFrom(other)..subtract(another);
   }
 
   /// Set [this] to scaling of [other] by [scalar].
   void setScalingOf(Vector2 other, num scalar) {
-    this..setFrom2(other)..scale(scalar);
+    this..setFrom(other)..scale(scalar);
   }
 
   /// Set [this] to division of [other] by [scalar].
   void setDivisionOf(Vector2 other, num scalar) {
-    this..setFrom2(other)..divide(scalar);
+    this..setFrom(other)..divide(scalar);
   }
 
-  /// Set [this] to rotated  value of [other] by [rotation].
-  //void setTransformationOf(Vector2 other, Toot2 Transformation) {
-  //  Transformation.Transform(this..setFrom2(other));
-  //}
-
   /// Returns absolute version of [this].
-  Vector2 absolute() => new Vector2.from2(this)..absolutize();
+  Vector2 absolute() => new Vector2.from(this)..absolutize();
 
   /// Returns normal version of [this].
-  Vector2 normal() => new Vector2.from2(this)..normalize();
+  Vector2 normal() => new Vector2.from(this)..normalize();
 
   bool operator==(Object other) {
     if(identical(this, other)) {
@@ -246,17 +200,17 @@ class Vector2 implements Vector {
     }
   }
 
-  Vector2 operator +(Vector2 other) => new Vector2.from2(this)..add(other);
+  Vector2 operator +(Vector2 other) => new Vector2.from(this)..add(other);
 
-  Vector2 operator -() => new Vector2.from2(this)..negate();
+  Vector2 operator -() => new Vector2.from(this)..negate();
 
-  Vector2 operator -(Vector2 other) => new Vector2.from2(this)..subtract(other);
+  Vector2 operator -(Vector2 other) => new Vector2.from(this)..subtract(other);
 
   /// Multiplication by a scalar.
-  Vector2 operator *(num scalar) => new Vector2.from2(this)..scale(scalar);
+  Vector2 operator *(num scalar) => new Vector2.from(this)..scale(scalar);
 
   /// Division by a scalar.
-  Vector2 operator /(num scalar) => new Vector2.from2(this)..divide(scalar);
+  Vector2 operator /(num scalar) => new Vector2.from(this)..divide(scalar);
 
   /// Absolute angle between [this] and [other] in radians.
   double angleBetween(Vector2 other) {
@@ -282,19 +236,19 @@ class Vector2 implements Vector {
     return sum;
   }
 
-  /// Cross product length.
-  double cross2Length(Vector2 other) {
+  /// Cross product vector length.
+  double crossed(Vector2 other) {
     return this._storage[0] * other._storage[1] - this._storage[1] * other._storage[0];
   }
 
-  /// Return cross product of [this] and [other].
-  Vector3 cross2(Vector2 other) => _cross2(this, other, new Vector3.zero());
-}
+  /// Copy components to list starting at [offset], return the supplied list.
+  List<num> copyToList(List<num> list, { int offset: 0 }) {
+    list[offset] = x;
+    list[offset + 1] = y;
+    return list;
+  }
 
-/// Set [into] to the cross product of [other] and [another], return into.
-Vector3 _cross2(Vector2 other, Vector2 another, Vector3 into) {
-  into._storage[0] = 0.0;
-  into._storage[1] = 0.0;
-  into._storage[2] = other.cross2Length(another);
-  return into;
+  /// Components as a list.
+  List<double> toList() => [x, y];
+
 }

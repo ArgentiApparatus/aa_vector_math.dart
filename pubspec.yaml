@@ -1,13 +1,11 @@
-name: aa_vectors
-version: 0.1.0
-author: Gary Smith <argentiapparatus@gmail.com>
+name:        aa_vectors
+version:     0.1.0
+author:      Gary Smith <argentiapparatus@gmail.com>
 description: A 2D and 3D vector library for games and simulations.
-homepage: https://github.com/argentiapparatus/aa_vectors.dart
+homepage:    https://github.com/argentiapparatus/aa_vectors.dart
+publish_to:  none
 environment:
-  sdk: '>=1.8.3 <2.0.0'
+  sdk: '>=1.21.0 <2.0.0'
 dependencies:
-
+  test: '^0.12.0'
 dev_dependencies:
-  test: '^0.12.5'
-  resource: '^1.1.0'
-  yaml: '^2.1.8'

@@ -1,10 +1,8 @@
-// Copyright (c) 2015, Gary Smith. All rights reserved. Use of this source code
-// is governed by a BSD-style license that can be found in the LICENSE file.
-
-part of vectors;
+import 'dart:typed_data';
+import 'dart:math' as Math;
 
 /// 3D vector.
-class Vector3 implements Vector {
+class Vector3 {
 
   // Number of components.
   static const int NUM_COMPONENTS = 3;
