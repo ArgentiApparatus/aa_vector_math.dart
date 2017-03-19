@@ -6,6 +6,18 @@ import 'matchers.dart';
 import 'tester.dart';
 
 
+dynamic getCopy(var o) {
+  if(o is Vector2) {
+    return new Vector2.from(o);
+  } else if(o is List) {
+    return new List.from(o);
+  } else if(o is num) {
+    return o;
+  } else {
+    return null;
+  }
+}
+
 
 List<Map<String, dynamic>> data = [
   {
@@ -20,27 +32,29 @@ List<Map<String, dynamic>> data = [
     'eql': equals(false),
     'isZero': equals(false),
     'list': orderedEquals([-1, 2]),
-    'ang': closeTo(2.930, 0.0005),
-    'cross2': closeTo(-3, 0.0005),
-    'dist': closeTo(8.602, 0.0005),
-    'distSq': closeTo(74.000, 0.0005),
-    'dot': closeTo(-14.000, 0.0005),
-    'len': closeTo(2.236, 0.0005),
-    'lenSq': closeTo(5.000, 0.0005),
-    'fromIter': new Vector2Matcher(8, -9),
-    'fromW': new Vector2Matcher(4, -5),
+    'ang': closeTo(2.930499, 0.0000005),
+    'cross2': closeTo(-3, 0.0000005),
+    'dist': closeTo(8.602325, 0.0000005),
+    'distSq': closeTo(74.000000, 0.0000005),
+    'dot': closeTo(-14.000000, 0.0000005),
+    'len': closeTo(2.236068, 0.0000005),
+    'lenSq': closeTo(5.000000, 0.0000005),
+    'V': new Vector2Matcher(-1, 2),
+    'W': new Vector2Matcher(4, -5),
+    'L': new Vector2Matcher(8, -9),
     'set x': new Vector2Matcher(8, 2),
     'set y': new Vector2Matcher(-1, -9),
     'zero': new Vector2Matcher(0, 0),
-    'abs': new Vector2Matcher(1.000, 2.000, 0.0005),
-    'add': new Vector2Matcher(3.000, -3.000, 0.0005),
-    'div': new Vector2Matcher(0.143, -0.286, 0.0005),
-    'mult': new Vector2Matcher(7.000, -14.000, 0.0005),
-    'neg': new Vector2Matcher(1.000, -2.000, 0.0005),
-    'norm': new Vector2Matcher(-0.447, 0.894, 0.0005),
-    'set len': new Vector2Matcher(3.130, -6.261, 0.0005),
-    'sub': new Vector2Matcher(-5.000, 7.000, 0.0005),
+    'abs': new Vector2Matcher(1.000000, 2.000000, 0.0000005),
+    'add': new Vector2Matcher(3.000000, -3.000000, 0.0000005),
+    'div': new Vector2Matcher(0.142857, -0.285714, 0.0000005),
+    'mult': new Vector2Matcher(7.000000, -14.000000, 0.0000005),
+    'neg': new Vector2Matcher(1.000000, -2.000000, 0.0000005),
+    'norm': new Vector2Matcher(-0.447214, 0.894427, 0.0000005),
+    'set len': new Vector2Matcher(3.130495, -6.260990, 0.0000005),
+    'sub': new Vector2Matcher(-5.000000, 7.000000, 0.0000005),
   },
+  // Corner cases
   {
     // equal vectors
     'v': new Vector2(-1, 2),
@@ -53,8 +67,14 @@ List<Map<String, dynamic>> data = [
     'isZero': equals(true),
   },
   {
-    // set length on zero vector
+    // set length on zero vector (has no effect)
     'v': new Vector2.zero(),
+    'f': 7,
+    'set len': new Vector2Matcher(0, 0),
+  },
+  {
+    // set length on vector to zero (for code coverage)
+    'v': new Vector2(-1, 2),
     'f': 0,
     'set len': new Vector2Matcher(0, 0),
   }
@@ -71,16 +91,16 @@ main() {
     tester.test1('absolutize()', 'v', false, 'abs', (v) => v..absolutize() );
     tester.test1('setAbsoluteOf()', 'v', true, 'abs', (v) => new Vector2.zero()..setAbsoluteOf(v) );
     tester.test1('get dim', 'v', true, 'dim', (v) => v.dim );
-    tester.test1('new ()', 'l', true, 'fromIter', (l) => new Vector2(l[0], l[1]) );
-    tester.test1('new fromIterable()', 'l', true, 'fromIter', (l) => new Vector2.fromIterable(l) );
-    tester.test1('new from()', 'w', true, 'fromW', (w) => new Vector2.from(w) );
+    tester.test1('new ()', 'l', true, 'L', (l) => new Vector2(l[0], l[1]) );
+    tester.test1('new fromIterable()', 'l', true, 'L', (l) => new Vector2.fromIterable(l) );
+    tester.test1('new from()', 'w', true, 'W', (w) => new Vector2.from(w) );
     tester.test1('get x', 'v', true, 'get x', (v) => v.x );
     tester.test1('get y', 'v', true, 'get y', (v) => v.y );
     tester.test1('get hashCode', 'v', true, 'hash', (v) => v.hashCode );
     tester.test1('get isZero', 'v', true, 'isZero', (v) => v.isZero );
-    tester.test1('setFromIterable()', 'l', true, 'fromIter', (l) => new Vector2.zero()..setFromIterable(l) );
-    tester.test1('setTo()', 'l', true, 'fromIter', (l) => new Vector2.zero()..setTo(l[0], l[1]) );
-    tester.test1('setFrom()', 'w', true, 'fromW', (w) => new Vector2.zero()..setFrom(w) );
+    tester.test1('setFromIterable()', 'l', true, 'L', (l) => new Vector2.zero()..setFromIterable(l) );
+    tester.test1('setTo()', 'l', true, 'L', (l) => new Vector2.zero()..setTo(l[0], l[1]) );
+    tester.test1('setFrom()', 'w', true, 'W', (w) => new Vector2.zero()..setFrom(w) );
     tester.test1('get length', 'v', true, 'len', (v) => v.length );
     tester.test1('get lengthSq', 'v', true, 'lenSq', (v) => v.lengthSquared );
     tester.test1('toList()', 'v', true, 'list', (v) => v.toList() );
@@ -122,17 +142,6 @@ main() {
 }
 
 
-dynamic getCopy(var o) {
-  if(o is Vector2) {
-    return new Vector2.from(o);
-  } else if(o is List) {
-    return new List.from(o);
-  } else if(o is num) {
-    return o;
-  } else {
-    return null;
-  }
-}
 
 
 

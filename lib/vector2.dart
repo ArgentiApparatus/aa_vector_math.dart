@@ -78,12 +78,12 @@ class Vector2 {
   /// A negative [value] will reverse the vector's orientation and a [value] of
   /// zero will set the vector to zero.
   ///
-  /// If the length of the vector is already zero, invoking this method has no effect.
+  /// If [this] is zero, invoking this method has no effect.
   set length(num value) {
     if (value == 0.0) {
       setZero();
     } else {
-      double l = length;
+      double l = length; // TODO reimplement?
       if (l != 0.0) {
         l = value / l;
         _storage[0] *= l;
@@ -113,8 +113,10 @@ class Vector2 {
   }
 
   /// Normalize [this].
+  ///
+  /// If [this] is zero, invoking this method has no effect.
   void normalize() {
-    double l = length;
+    double l = length; //TODO reimplement based on set length
     if (l != 0.0) {
       l = 1.0 / l;
       _storage[0] *= l;
@@ -159,16 +161,23 @@ class Vector2 {
   }
 
   /// Set [this] to normal value of [other].
+  ///
+  /// Note: normal of zero vector is zero vector.
   void setNormalOf(Vector2 other) {
     this..setFrom(other)..normalize();
   }
 
+  // TODO does not work if another is self
   /// Set [this] to addition of [other] and [another].
+  ///
+  /// Note: copies [other] to [this] then adds [another], so if [another] is [this] the resulting value of [this] will be [other]+[other].
   void setAdditionOf(Vector2 other, Vector2 another) {
     this..setFrom(other)..add(another);
   }
 
+  // TODO does not work if another is self
   /// Set [this] to subtraction of [other] and [another].
+  /// Note: copies [other] to [this] then adds [another], so if [another] is [this] the resulting value of [this] will be [other]-[other].
   void setSubtractionOf(Vector2 other, Vector2 another) {
     this..setFrom(other)..subtract(another);
   }
@@ -187,6 +196,8 @@ class Vector2 {
   Vector2 absolute() => new Vector2.from(this)..absolutize();
 
   /// Returns normal version of [this].
+  ///
+  /// Note: normal of zero vector is zero vector.
   Vector2 normal() => new Vector2.from(this)..normalize();
 
   bool operator==(Object other) {
